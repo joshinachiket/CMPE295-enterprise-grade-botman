@@ -1,0 +1,38 @@
+### Node
+logs
+*.log
+npm-debug.log*
+package-lock.json
+
+# Dependency directory
+node_modules/
+node_modules
+
+# Tern plugin
+.tern-project
+
+### Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# Eclipse Core
+.project
+
+### OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Bower
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
