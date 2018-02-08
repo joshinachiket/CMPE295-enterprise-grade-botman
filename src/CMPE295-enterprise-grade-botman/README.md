@@ -5,16 +5,18 @@
 
 
 ## Usage
-
+npm clone {{repository}}
+npm start
 
 
 ## Developing
-
+Bot development platform
 
 
 ### Tools
 
-Created with [Nodeclipse](https://github.com/Nodeclipse/nodeclipse-1)
- ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))   
+Created with
+Eclipse
+Atom
 
 Nodeclipse is free open-source project that grows with your contributions.
