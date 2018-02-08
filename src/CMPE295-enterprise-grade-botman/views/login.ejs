@@ -66,10 +66,15 @@
                   <br></br>
 
                   <input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Login »" ng-click="submit();">
+
+                  <div class="btn btn-lg btn-success btn-block" onclick="window.location.href = '/auth/github'">
+                    <img src=/images/assets/white-git-login.png /><span class="git-login">Login with <strong>Github</strong></span>
+                  </div>
+
                 </fieldset>
 
-                <div class="alert alert-warning" ng-hide="msg_flag">
-                  <strong style="text-align: center">Wrong Credentials</strong>
+                <div class="alert alert-warning " ng-hide="msg_flag ">
+                  <strong style="text-align: center ">Wrong Credentials</strong>
                 </div>
               </form>
 

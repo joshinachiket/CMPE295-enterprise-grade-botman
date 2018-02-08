@@ -11,6 +11,8 @@
     "cookie-parser": "^1.4.3",
     "ejs": "*",
     "express": "^4.16.2",
-    "express-session": "*"
+    "express-session": "*",
+    "passport": "^0.4.0",
+    "passport-github2": "^0.1.11"
   }
 }
