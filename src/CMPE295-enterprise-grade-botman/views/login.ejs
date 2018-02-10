@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="login-page" content="noindex">
+    <title>Botman Login Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Custom styles for this template -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+    <script type="text/javascript" src = "/scripts/index.js"> </script>
+
+</head>
+<body ng-app="app" ng-controller="app" >
+<header>
+    <div>
+        <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
+        <span class="header_name">Botman</span>
+        <div class="button" id="login-button-header">Login</div>
+    </div>
+</header>
+<section class="section1">
+    <div id="info-container" class="info-container">
+        <p>An Enterprise grade framework for <br/>Implementing Dash Bots</p>
+        <div class="button-start" id="login-button-section">Get started</div>
+    </div>
+    <div id="login-container" class="login-container">
+        <img class = "cancel" src="/images/assets/cancel.PNG" alt="cancel" id="cancel-button"/>
+        <img class= "git" src="/images/assets/github.PNG" alt="git" />
+        <div class="button-login" onclick="window.location.href='/auth/github'" >Login</div>
+    </div>
+</section>
+<section class="section2">
+</section>
+<footer>
+    <div>
+        <ul>
+            <li><a href="">About us</a></li>
+            <li><a href="">Features</a></li>
+        </ul>
+        <p>Botman © 2018. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
