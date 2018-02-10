@@ -1,0 +1,40 @@
+header {
+	background-color: white;
+}
+
+header div {
+	margin: 0px 200px;
+	height: 60px;
+}
+.logo_container {
+	height:45px;
+	width:45px;
+	margin-top: 8px;
+	display: inline-block;
+    float: left;
+}
+.header_name {
+	font-size:40px;
+	font-weight: bold;
+	padding: 5px;
+	font-family: Verdana;
+	display: inline-block;
+}
+
+.button {
+	float:right;
+	height: 22px;
+	width: 100px;
+	padding: 5px;
+	margin: 0px;
+	text-align: center;
+	border: 3px solid black;
+	font-weight:bold;
+	font-family: Arial;
+	margin-top:10px;
+}
+
+.button:hover {
+	background-color: black;
+	color:white;
+}
