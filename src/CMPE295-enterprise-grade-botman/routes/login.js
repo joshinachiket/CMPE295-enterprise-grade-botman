@@ -103,6 +103,7 @@ function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     console.log(req.user.username);
     req.session.username = req.user.username;
+    console.log('user image url', req.user._json.avatar_url)
     return next();
   } else {
     console.log("not authenticated");
