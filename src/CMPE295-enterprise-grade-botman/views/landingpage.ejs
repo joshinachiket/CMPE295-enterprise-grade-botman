@@ -2,41 +2,59 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-
-  <!-- Include SCRIPTS for angularjs -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-
-  <!-- Include SCRIPTS for jQuery -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script src="//code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-
-  <!-- Include SCRIPTS for bootstrap -->
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="login-page" content="noindex">
+  <title>Botman Login Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Custom styles for this template -->
-  <!-- Loading the AngularJS file from /public/angularJS folder -->
-  <script src="/angular/landingpage.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/landing.css">
+  <script type="text/javascript" src = "/scripts/landingpage.js"> </script>
 
 </head>
+<body ng-app="app" ng-controller="app" >
+<header>
+  <div>
+    <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
+    <span class="header_name">Botman</span>
+    <div class="button" id="logout-button-header">Logout</div>
+  </div>
+</header>
+<section class="section1">
+  <div class="section-heading">
+      <p>My Bots</p>
+      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add"/>
+  </div>
+  <div>
 
-<body ng-app="landingpage">
-
-  <h1>Hello this is landingpage after successful login</h1>
-
-  <form action="logout" method="post">
-    <button name="logout" ng-click="logout()" type="submit" class="btn btn-primary" style="margin-top: 7px;right: 0px;">LOGOUT</button>
-  </form>
-
+  </div>
+  <div id="bot-create-model-container" class="bot-create-model-container" >
+    <div class="bot-create-modal">
+      <div class="bot-create-modal-header">
+       <span id="close-bot-model" class="close">&times;</span>
+       <h2>Bot Details</h2>
+      </div>
+      <div class="bot-create-modal-body">
+        <p>Some text in the Modal Body</p>
+        <p>Some other text...</p>
+      </div>
+      <div class="bot-create-modal-footer">
+        <div class="button-create">Create</div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div>
+    <ul>
+      <li><a href="">About us</a></li>
+      <li><a href="">Features</a></li>
+    </ul>
+    <p>Botman © 2018. All rights reserved.</p>
+  </div>
+</footer>
 </body>
-
 </html>
