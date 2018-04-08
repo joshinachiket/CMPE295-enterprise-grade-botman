@@ -26,14 +26,12 @@ router.get('/getUserBotList', function(req, res) {
       };
       console.log(json_response);
       res.send(json_response);
-      // callback(null, json_response);
     });
 
   });
 
 });
 
-module.exports = router;
 
 // exports.insertUserMetadata = function(req, res) {
 //   var userPayload = {
@@ -74,3 +72,5 @@ module.exports = router;
 //     });
 //   });
 // });
+
+module.exports = router;

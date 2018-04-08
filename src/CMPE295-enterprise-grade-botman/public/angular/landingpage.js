@@ -9,43 +9,23 @@ app.controller('BotInfo', function($scope, $http) {
 
   $scope.loadData = function() {
     console.log("ON LOAD FUNCTION CALLED");
-    console.log("get call to get the list of all bot list");
-
     $http.get('/user/getUserBotList', {}).then(function(response) {
       if (response.status == 200) {
         console.log("successfully brought data from backend");
-        console.log(response);
-        // $scope.botList = response;
+        $scope.botList = response.data.bots;
       } else {
         console.log("something went wrong");
       }
     });
-
-    $scope.botList = [{
-        botId: 1,
-        "name": "Max Joe",
-        "lastEdit": "29 Sep,2017",
-        "type": "QA"
-      },
-      {
-        botId: 2,
-        "name": "Max Joe",
-        "lastEdit": "29 Sep,2017",
-        "type": "NLP"
-      },
-      {
-        botId: 3,
-        "name": "Max Joe",
-        "lastEdit": "29 Sep,2017",
-        "type": "NLP"
-      },
-      {
-        botId: 4,
-        "name": "Max Joe",
-        "lastEdit": "29 Sep,2017",
-        "type": "QA"
-      }
-    ];
+  };
+  // create bot payload
+  var create_payload = {
+    "fixed_response": $scope.fixed_response,
+    "nlp_integrated": $scope.nlp_integrated
+  };
+  $scope.createBot = function() {
+    console.log("create button pressed with create payload as follows");
+    console.log(create_payload);
   };
 
 
