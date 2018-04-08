@@ -10,6 +10,7 @@
     "body-parser": "*",
     "connect-mongo": "^2.0.1",
     "cookie-parser": "^1.4.3",
+    "dialogflow": "^0.2.1",
     "ejs": "*",
     "express": "^4.16.2",
     "express-session": "*",

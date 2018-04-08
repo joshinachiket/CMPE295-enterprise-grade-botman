@@ -40,3 +40,4 @@ bower_components
 # workspace files are user-specific
 *.sublime-project
 .jshintrc
+/.idea/
