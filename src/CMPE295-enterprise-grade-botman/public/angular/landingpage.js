@@ -7,12 +7,6 @@ app.controller('BotInfo', function($scope, $http) {
   $scope.deleteBotWithId = -1;
   $scope.botList = [];
 
-  // create bot payload
-  $scope.createBotPayload = {
-    "botName": "",
-    "botType": ""
-  };
-
   $scope.loadData = function() {
     console.log("ON LOAD FUNCTION CALLED");
     $http.get('/user/getUserBotList', {}).then(function(response) {
@@ -27,8 +21,36 @@ app.controller('BotInfo', function($scope, $http) {
 
   $scope.createBot = function() {
     console.log("create button pressed with create payload as follows");
-    console.log($scope.createBotPayload);
     //apply null check validation and only send request if valid.
+    var createbot_payload = {
+      "bot_type": $scope.createBotPayload.botType,
+      "bot_name": $scope.createBotPayload.botName
+    }
+    console.log(createbot_payload);
+
+    $http({
+      method: "POST",
+      url: '/user/createUserBot',
+      data: createbot_payload
+    }).then(function successCallback(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log(response);
+      if (response.data.statusCode === 200) {
+        console.log("bot successfully created");
+        $scope.createbot_status = 1;
+      } else if (response.data.statusCode === 401) {
+        console.log("invalid entry received");
+        $scope.createbot_status = 2;
+      } else {
+        console.log("bot already exists");
+        $scope.createbot_status = 3;
+      }
+
+    }, function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    });
 
   };
 
@@ -51,8 +73,8 @@ app.controller('BotInfo', function($scope, $http) {
     }
   }
   $scope.cancelRequestDeleteBot = function() {
-     $scope.showDialogueDeleteBot = false;
-     $scope.deleteBotWithId = -1;
+    $scope.showDialogueDeleteBot = false;
+    $scope.deleteBotWithId = -1;
   }
 
   $scope.sendRequestEditBot = function(bId) {
