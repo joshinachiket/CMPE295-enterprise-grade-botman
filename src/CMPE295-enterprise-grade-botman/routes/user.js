@@ -2,6 +2,8 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var ObjectId = require('mongodb').ObjectID;
+
 
 var mongo = require('./../database/mongodb');
 var mongoURL = "mongodb://admin:cmpe295b@ds231589.mlab.com:31589/cmpe295-enterprise-grade-botman";
@@ -25,7 +27,7 @@ router.get('/getUserBotList', function(req, res) {
         "bots": data,
         "statusCode": 200
       };
-      console.log(json_response);
+      // console.log(json_response);
       res.send(json_response);
     });
 
@@ -82,6 +84,34 @@ router.post('/createUserBot', function(req, res, next) {
             res.send(json_response);
           }
         });
+      }
+    });
+  });
+});
+
+router.post('/deleteUserBot', function(req, res, next) {
+
+  var bId = req.body.bid;
+  console.log("delete bot payload");
+  console.log(bId);
+
+  // add bot information to MongoDB collection named UserBotMetadata
+  mongo.connect(mongoURL, function() {
+    console.log("inside mongo connection function of API deleteUserBot");
+    var collection_botmetadata = mongo.collection("UserBotMetadata");
+    var json_response;
+
+    collection_botmetadata.deleteOne({
+      _id: {
+        $eq: ObjectId(bId)
+      }
+    }, function(err, response) {
+      if (response) {
+        json_response = {
+          "statusCode": 200
+        };
+        console.log(json_response);
+        res.send(json_response);
       }
     });
   });

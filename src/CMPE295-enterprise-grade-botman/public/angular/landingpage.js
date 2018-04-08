@@ -56,22 +56,39 @@ app.controller('BotInfo', function($scope, $http) {
 
 
   $scope.deleteBot = function(bId) {
-    var li = $scope.botList;
-    for (i = 0; i < li.length; i++) {
-      if (li[i].botId === bId) {
-        $scope.deleteBotWithName = li[i].name;
-        $scope.deleteBotWithId = li[i].botId;
-        $scope.showDialogueDeleteBot = true;
-      }
-    }
+    $scope.deleteBotWithId = bId;
+    $scope.showDialogueDeleteBot = true;
   }
 
-  $scope.sendRequestDeleteBot = function() {
-    if ($scope.deleteBotWithId > 0) {
-      console.log($scope.deleteBotWithId);
-      $scope.showDialogueDeleteBot = false;
+  $scope.sendRequestDeleteBot = function(data) {
+    var deletebot_payload = {
+      "bid": $scope.deleteBotWithId
     }
-  }
+    console.log("remove bot info " + deletebot_payload.bid);
+    $http({
+      method: "POST",
+      url: '/user/deleteUserBot',
+      data: deletebot_payload
+    }).then(function successCallback(response) {
+      // this callback will be called asynchronously
+      // when the response is available
+      console.log(response);
+      if (response.data.statusCode === 200) {
+        console.log("bot successfully deleted");
+        $scope.deletebot_status = 1;
+      }
+    }, function errorCallback(response) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    });
+    $scope.showDialogueDeleteBot = false;
+
+    // if ($scope.deleteBotWithId > 0) {
+    //   console.log($scope.deleteBotWithId);
+    //   $scope.showDialogueDeleteBot = false;
+    // }
+  };
+
   $scope.cancelRequestDeleteBot = function() {
     $scope.showDialogueDeleteBot = false;
     $scope.deleteBotWithId = -1;
