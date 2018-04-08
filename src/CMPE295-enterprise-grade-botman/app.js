@@ -13,6 +13,7 @@ var GitHubStrategy = require('passport-github2').Strategy;
 
 // initialize ROUTES to be used
 var login = require('./routes/login');
+var user = require('./routes/user');
 
 // initialize express session to be maintained
 
@@ -25,12 +26,12 @@ var mongo = require("./database/mongodb");
 
 app.use(session({
   secret: 'cmpe295b-teamranjan_botman',
-  resave : false, // dont save a session if it's not modified
+  resave: false, // dont save a session if it's not modified
   saveUninitialized: false, // don't create session until something is stored
-  duration : 30 * 60 * 1000,
-  activeDuration : 5 * 60 * 1000,
-  store : new mongoStore ({
-    url : mongoSessionConnectURL
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+  store: new mongoStore({
+    url: mongoSessionConnectURL
   })
 }));
 
@@ -55,13 +56,19 @@ app.set('port', (process.env.PORT || 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', login);
+app.use('/user', user);
+
+// GET APIS
+// app.get('/getUserBots', user.getUserBots);
+
+//POST APIS
 
 // connect to the mongo collection session and then createServer
 // all user information is now saved in the session collection
 
 mongo.connect(mongoSessionConnectURL, function() {
-	console.log('Connected to mongo at: ' + mongoSessionConnectURL);
-	http.createServer(app).listen(app.get('port'), function() {
-		console.log('Express server listening on port ' + app.get('port'));
-	});
+  console.log('Connected to mongo at: ' + mongoSessionConnectURL);
+  http.createServer(app).listen(app.get('port'), function() {
+    console.log('Express server listening on port ' + app.get('port'));
+  });
 });

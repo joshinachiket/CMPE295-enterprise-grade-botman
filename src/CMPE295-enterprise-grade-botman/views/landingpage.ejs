@@ -20,7 +20,7 @@
 
 </head>
 
-<body ng-app="LandingPage">
+<body ng-app="LandingPage" ng-controller="BotInfo" ng-init="loadData()">
   <header>
     <div>
       <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
@@ -32,7 +32,7 @@
 
     </div>
   </header>
-  <section class="section1" ng-controller="BotInfo">
+  <section class="section1">
     <div class="section-heading">
       <p>My Bots</p>
       <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" />
