@@ -66,10 +66,20 @@
           <h2>Bot Details</h2>
         </div>
         <div class="bot-create-modal-body">
-          <p>Bot Name</p> <input type="text" />
+          <p>Bot Name</p> <input type="text" ng-model="bot_name" name="bot_name" id="bot_name" placeholder="Bot Name" />
           <p>Bot Type</p> <br/>
-          <input type="radio" name="botType" value="Fixed Response." ng-model="fixed_response" checked>Fixed Response<br>
-          <input type="radio" name="botType" value="NLP Integrated" ng-model="nlp_integrated">NLP Integrated<br>
+          <div class="radio">
+            <label>
+                  <input ng-model="bot_type" type="radio" name="rdoResult" ng-value="simple_bot">
+                    Simple Fixed Response Bot
+              </label>
+          </div>
+          <div class="radio">
+            <label>
+                  <input ng-model="bot_type" type="radio" name="rdoResult" ng-value="nlp_bot">
+                    NLP Integrated Bot
+              </label>
+          </div>
         </div>
         <div class="bot-create-modal-footer">
           <div class="button-create" ng-click="createBot()">Create</div>

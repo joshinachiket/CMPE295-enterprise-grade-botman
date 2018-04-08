@@ -7,6 +7,12 @@ app.controller('BotInfo', function($scope, $http) {
   $scope.deleteBotWithId = -1;
   $scope.botList = [];
 
+  // create bot payload
+  var create_payload = {
+    "bot_type": $scope.bot_type,
+    "bot_name": $scope.bot_name
+  };
+
   $scope.loadData = function() {
     console.log("ON LOAD FUNCTION CALLED");
     $http.get('/user/getUserBotList', {}).then(function(response) {
@@ -18,11 +24,7 @@ app.controller('BotInfo', function($scope, $http) {
       }
     });
   };
-  // create bot payload
-  var create_payload = {
-    "fixed_response": $scope.fixed_response,
-    "nlp_integrated": $scope.nlp_integrated
-  };
+
   $scope.createBot = function() {
     console.log("create button pressed with create payload as follows");
     console.log(create_payload);
