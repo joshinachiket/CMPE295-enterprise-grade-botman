@@ -13,85 +13,94 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/landing.css">
-  <script type="text/javascript" src = "/scripts/landingpage.js"> </script>
-  <script type="text/javascript" src = "/angular/landingpage.js"> </script>
+  <script type="text/javascript" src="/scripts/landingpage.js">
+  </script>
+  <script type="text/javascript" src="/angular/landingpage.js">
+  </script>
 
 </head>
-<body ng-app="LandingPage" >
-<header>
-  <div>
-    <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
-    <span class="header_name">Botman</span>
-    <div class="button" id="logout-button-header">Logout</div>
-  </div>
-</header>
-<section class="section1"  ng-controller="BotInfo">
-  <div class="section-heading">
+
+<body ng-app="LandingPage">
+  <header>
+    <div>
+      <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
+      <span class="header_name">Botman</span>
+
+      <form action="logout" method="post">
+        <button class="button" ng-click="logout()" type="submit" id="logout-button-header">LOGOUT</button>
+      </form>
+
+    </div>
+  </header>
+  <section class="section1" ng-controller="BotInfo">
+    <div class="section-heading">
       <p>My Bots</p>
-      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add"/>
-  </div>
-  <div>
-    <table class="table-container">
-      <tr class="table-header">
-        <td>Name</td>
-        <td>Last Edited</td>
-        <td>Type</td>
-        <td>Health Status</td>
-        <td>Update</td>
-        <td>Delete</td>
-      </tr>
-      <tr ng-repeat="x in botList" class="table-row">
-        <td>{{x.name}}</td>
-        <td>{{x.lastEdit}}</td>
-        <td>{{x.type}}</td>
-        <td>1</td> <!--health-->
-        <td ng-click="editBot(x.botId)"><img alt="edit" src="images/assets/edit_ic.png"/> </td>
-        <td ng-click="deleteBot(x.botId)"><img alt="edit" src="images/assets/delete_ic.png"/></td>
-      </tr>
-    </table>
-  </div>
-  <!-- block to show the bot creation dialogue-->
-  <div id="bot-create-model-container" class="bot-create-model-container" >
-    <div class="bot-create-modal">
-      <div class="bot-create-modal-header">
-       <span id="close-bot-model" class="close">&times;</span>
-       <h2>Bot Details</h2>
-      </div>
-      <div class="bot-create-modal-body">
-        <p>Bot Name</p> <input type="text"/>
-        <p>Bot Type</p> <br/>
-        <input type="radio" name="botType" value="Fixed response." checked>Fixed response<br>
-        <input type="radio" name="botType" value="NLP integrated">NLP integrated<br>
-      </div>
-      <div class="bot-create-modal-footer">
-        <div class="button-create">Create</div>
+      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" />
+    </div>
+    <div>
+      <table class="table-container">
+        <tr class="table-header">
+          <td>Name</td>
+          <td>Last Edited</td>
+          <td>Type</td>
+          <td>Health Status</td>
+          <td>Update</td>
+          <td>Delete</td>
+        </tr>
+        <tr ng-repeat="x in botList" class="table-row">
+          <td>{{x.name}}</td>
+          <td>{{x.lastEdit}}</td>
+          <td>{{x.type}}</td>
+          <td>1</td>
+          <!--health-->
+          <td ng-click="editBot(x.botId)"><img alt="edit" src="images/assets/edit_ic.png" /> </td>
+          <td ng-click="deleteBot(x.botId)"><img alt="edit" src="images/assets/delete_ic.png" /></td>
+        </tr>
+      </table>
+    </div>
+    <!-- block to show the bot creation dialogue-->
+    <div id="bot-create-model-container" class="bot-create-model-container">
+      <div class="bot-create-modal">
+        <div class="bot-create-modal-header">
+          <span id="close-bot-model" class="close">&times;</span>
+          <h2>Bot Details</h2>
+        </div>
+        <div class="bot-create-modal-body">
+          <p>Bot Name</p> <input type="text" />
+          <p>Bot Type</p> <br/>
+          <input type="radio" name="botType" value="Fixed response." checked>Fixed response<br>
+          <input type="radio" name="botType" value="NLP integrated">NLP integrated<br>
+        </div>
+        <div class="bot-create-modal-footer">
+          <div class="button-create">Create</div>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- block to show the bot delete confirmation dialogue -->
-  <div id="bot-delete-model-container" class="fade-background-container" ng-show="showDialogueDeleteBot">
-    <div class="delete-dialogue-container">
-      <div class="bot-create-modal-header">
-        <h2>Delete Chatbot</h2>
-      </div>
-      <div class="delete-dialogue-body">
-        <p>Confirm delete bot {{deleteBotWithName}} ?</p>
-      </div>
-      <div class="bot-create-modal-footer adjust-delete-footer">
-        <div class="button-delete" ng-click="sendRequestDeleteBot()">Delete</div>
-        <div class="button-cancel" ng-click="cancelRequestDeleteBot()">Cancel</div>
+    <!-- block to show the bot delete confirmation dialogue -->
+    <div id="bot-delete-model-container" class="fade-background-container" ng-show="showDialogueDeleteBot">
+      <div class="delete-dialogue-container">
+        <div class="bot-create-modal-header">
+          <h2>Delete Chatbot</h2>
+        </div>
+        <div class="delete-dialogue-body">
+          <p>Confirm delete bot {{deleteBotWithName}} ?</p>
+        </div>
+        <div class="bot-create-modal-footer adjust-delete-footer">
+          <div class="button-delete" ng-click="sendRequestDeleteBot()">Delete</div>
+          <div class="button-cancel" ng-click="cancelRequestDeleteBot()">Cancel</div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<footer>
-  <div>
-    <ul>
-      <li><a href="">About us</a></li>
-      <li><a href="">Features</a></li>
-    </ul>
-    <p>Botman © 2018. All rights reserved.</p>
-  </div>
-</footer>
+  </section>
+  <footer>
+    <div>
+      <ul>
+        <li><a href="">About us</a></li>
+        <li><a href="">Features</a></li>
+      </ul>
+      <p>Botman © 2018. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
+
 </html>
