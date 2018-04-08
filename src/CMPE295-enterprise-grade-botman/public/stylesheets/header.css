@@ -2,7 +2,7 @@ header {
 	background-color: white;
 }
 
-header div {
+header .header-container {
 	margin: 0px 200px;
 	height: 60px;
 }
@@ -23,12 +23,12 @@ header div {
 
 .button {
 	float:right;
-	height: 22px;
 	width: 100px;
-	padding: 5px;
+	padding: 6px;
 	margin: 0px;
 	text-align: center;
 	border: 3px solid black;
+	background-color: white;
 	font-weight:bold;
 	font-family: Arial;
 	margin-top:10px;
@@ -37,4 +37,9 @@ header div {
 .button:hover {
 	background-color: black;
 	color:white;
+}
+
+header form {
+	display: inline-block;
+	float: right;
 }

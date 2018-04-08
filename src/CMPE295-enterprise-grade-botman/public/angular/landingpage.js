@@ -8,9 +8,9 @@ app.controller('BotInfo', function($scope, $http) {
   $scope.botList = [];
 
   // create bot payload
-  var create_payload = {
-    "bot_type": $scope.bot_type,
-    "bot_name": $scope.bot_name
+  $scope.createBotPayload = {
+    "botName": "",
+    "botType": ""
   };
 
   $scope.loadData = function() {
@@ -27,14 +27,11 @@ app.controller('BotInfo', function($scope, $http) {
 
   $scope.createBot = function() {
     console.log("create button pressed with create payload as follows");
-    console.log(create_payload);
+    console.log($scope.createBotPayload);
+    //apply null check validation and only send request if valid.
+
   };
 
-
-  $scope.cancelRequestDeleteBot = function() {
-    $scope.showDialogueDeleteBot = false;
-    $scope.deleteBotWithId = -1;
-  }
 
   $scope.deleteBot = function(bId) {
     var li = $scope.botList;
@@ -49,8 +46,13 @@ app.controller('BotInfo', function($scope, $http) {
 
   $scope.sendRequestDeleteBot = function() {
     if ($scope.deleteBotWithId > 0) {
-      //send request
+      console.log($scope.deleteBotWithId);
+      $scope.showDialogueDeleteBot = false;
     }
+  }
+  $scope.cancelRequestDeleteBot = function() {
+     $scope.showDialogueDeleteBot = false;
+     $scope.deleteBotWithId = -1;
   }
 
   $scope.sendRequestEditBot = function(bId) {

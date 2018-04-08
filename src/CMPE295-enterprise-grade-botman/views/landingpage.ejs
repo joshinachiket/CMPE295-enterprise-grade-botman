@@ -19,13 +19,11 @@
   </script>
 
 </head>
-
 <body ng-app="LandingPage" ng-controller="BotInfo" ng-init="loadData()">
   <header>
-    <div>
+    <div class="header-container">
       <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
       <span class="header_name">Botman</span>
-
       <form action="logout" method="post">
         <button class="button" ng-click="logout()" type="submit" id="logout-button-header">LOGOUT</button>
       </form>
@@ -66,28 +64,28 @@
           <h2>Bot Details</h2>
         </div>
         <div class="bot-create-modal-body">
-          <p>Bot Name</p> <input type="text" ng-model="bot_name" name="bot_name" id="bot_name" placeholder="Bot Name" />
+          <p>Bot Name</p> <input type="text" ng-model="createBotPayload.botName" name="bot_name" id="bot_name" placeholder="Bot Name" />
           <p>Bot Type</p> <br/>
-          <div class="radio">
+          <div>
             <label>
-                  <input ng-model="bot_type" type="radio" name="rdoResult" ng-value="simple_bot">
+                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="simple_bot" ng-init="createBotPayload.botType='simple_bot'"/>
                     Simple Fixed Response Bot
               </label>
           </div>
-          <div class="radio">
+          <div>
             <label>
-                  <input ng-model="bot_type" type="radio" name="rdoResult" ng-value="nlp_bot">
+                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="nlp_bot" />
                     NLP Integrated Bot
               </label>
           </div>
         </div>
         <div class="bot-create-modal-footer">
-          <div class="button-create" ng-click="createBot()">Create</div>
+          <div id="create-bot-button" class="button-create" ng-click="createBot()">Create</div>
         </div>
       </div>
     </div>
     <!-- block to show the bot delete confirmation dialogue -->
-    <div id="bot-delete-model-container" class="fade-background-container" ng-show="showDialogueDeleteBot">
+    <div id="bot-delete-model-container" class="fade-background-container" ng-show="showDialogueDeleteBot" >
       <div class="delete-dialogue-container">
         <div class="bot-create-modal-header">
           <h2>Delete Chatbot</h2>
