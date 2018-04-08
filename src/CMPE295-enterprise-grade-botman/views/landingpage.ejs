@@ -58,8 +58,10 @@
        <h2>Bot Details</h2>
       </div>
       <div class="bot-create-modal-body">
-        <p>Some text in the Modal Body</p>
-        <p>Some other text...</p>
+        <p>Bot Name</p> <input type="text"/>
+        <p>Bot Type</p> <br/>
+        <input type="radio" name="botType" value="Fixed response." checked>Fixed response<br>
+        <input type="radio" name="botType" value="NLP integrated">NLP integrated<br>
       </div>
       <div class="bot-create-modal-footer">
         <div class="button-create">Create</div>
@@ -73,11 +75,11 @@
         <h2>Delete Chatbot</h2>
       </div>
       <div class="delete-dialogue-body">
-        <p>Confirm delete bot {{deleteBotName}} ?</p>
+        <p>Confirm delete bot {{deleteBotWithName}} ?</p>
       </div>
       <div class="bot-create-modal-footer adjust-delete-footer">
-        <div class="button-delete">Delete</div>
-        <div class="button-cancel">Cancel</div>
+        <div class="button-delete" ng-click="sendRequestDeleteBot()">Delete</div>
+        <div class="button-cancel" ng-click="cancelRequestDeleteBot()">Cancel</div>
       </div>
     </div>
   </div>
