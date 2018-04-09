@@ -1,10 +1,27 @@
 var app = angular.module('LandingPage', []);
 console.log("landingpage.js angular Connected");
 
-app.controller('BotInfo', function($scope, $http) {
+app.controller('BotInfo', function($scope, $http, $timeout) {
+
+
   console.log("BotInfo on page load controller connected");
-  $scope.showDialogueDeleteBot = false;
   $scope.deleteBotWithId = -1;
+
+  /*Dialog show-hide variables*/
+  $scope.showDialogueDeleteBot = false;
+  $scope.showDialogueCreateBot = false;
+
+
+  /*snack bar object*/
+  $scope.deleteRequestStatus = {
+    success:false,
+    error:false
+  }
+  $scope.createRequestStatus = {
+    success:false,
+    error:false
+  }
+
   $scope.botList = [];
 
   $scope.loadData = function() {
@@ -33,31 +50,39 @@ app.controller('BotInfo', function($scope, $http) {
       url: '/user/createUserBot',
       data: createbot_payload
     }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
       console.log(response);
       if (response.data.statusCode === 200) {
         console.log("bot successfully created");
-        $scope.createbot_status = 1;
-      } else if (response.data.statusCode === 401) {
-        console.log("invalid entry received");
-        $scope.createbot_status = 2;
+          $scope.createRequestStatus.error = false;
+          $scope.createRequestStatus.success = true;
       } else {
-        console.log("bot already exists");
-        $scope.createbot_status = 3;
+        console.log("Error creating bot");
+          $scope.createRequestStatus.error = true;
+          $scope.createRequestStatus.success = false;
       }
-
     }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
+        $scope.createRequestStatus.error = true;
+        $scope.createRequestStatus.success = false;
     });
-
+      $timeout(function () {
+          $scope.showDialogueCreateBot = false;
+          $scope.createRequestStatus.error = false;
+          $scope.createRequestStatus.success = false;
+          $scope.loadData();
+      }, 5000);
   };
 
 
   $scope.deleteBot = function(bId) {
     $scope.deleteBotWithId = bId;
     $scope.showDialogueDeleteBot = true;
+      var li = $scope.botList;
+      for (i = 0; i < li.length; i++) {
+          if (li[i]._id === bId) {
+              console.log(li[i]._id);
+              $scope.deleteBotWithName = li[i].botName;
+          }
+      }
   }
 
   $scope.sendRequestDeleteBot = function(data) {
@@ -70,23 +95,29 @@ app.controller('BotInfo', function($scope, $http) {
       url: '/user/deleteUserBot',
       data: deletebot_payload
     }).then(function successCallback(response) {
-      // this callback will be called asynchronously
-      // when the response is available
-      console.log(response);
+        console.log(response);
       if (response.data.statusCode === 200) {
         console.log("bot successfully deleted");
-        $scope.deletebot_status = 1;
+          $scope.deleteRequestStatus.success = true;
+          $scope.deleteRequestStatus.error = false;
+      } else {
+          $scope.deleteRequestStatus.error = true;
+          $scope.deleteRequestStatus.success = false;
       }
     }, function errorCallback(response) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
+        $scope.deleteRequestStatus.error = true;
+        $scope.deleteRequestStatus.success = false;
     });
-    $scope.showDialogueDeleteBot = false;
+      $timeout(function () {
+          $scope.showDialogueDeleteBot = false;
+          $scope.deleteRequestStatus.error = false;
+          $scope.deleteRequestStatus.success = false;
+          $scope.loadData();
+      }, 5000);
+  };
 
-    // if ($scope.deleteBotWithId > 0) {
-    //   console.log($scope.deleteBotWithId);
-    //   $scope.showDialogueDeleteBot = false;
-    // }
+  $scope.sayHi = function(){
+      console.log("hi");
   };
 
   $scope.cancelRequestDeleteBot = function() {

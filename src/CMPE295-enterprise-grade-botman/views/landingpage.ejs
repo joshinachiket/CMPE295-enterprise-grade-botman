@@ -34,7 +34,7 @@
   <section class="section1">
     <div class="section-heading">
       <p>My Bots</p>
-      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" />
+      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" ng-click="showDialogueCreateBot = true"/>
     </div>
     <div>
       <table class="table-container">
@@ -58,10 +58,10 @@
       </table>
     </div>
     <!-- block to show the bot creation dialogue-->
-    <div id="bot-create-model-container" class="bot-create-model-container">
+    <div id="bot-create-model-container" class="bot-create-model-container" ng-show="showDialogueCreateBot">
       <div class="bot-create-modal">
         <div class="bot-create-modal-header">
-          <span id="close-bot-model" class="close">&times;</span>
+          <span id="close-bot-model" class="close" ng-click="showDialogueCreateBot = false">&times;</span>
           <h2>Bot Details</h2>
         </div>
         <div class="bot-create-modal-body">
@@ -83,6 +83,12 @@
         <div class="bot-create-modal-footer">
           <div id="create-bot-button" class="button-create" ng-click="createBot()">Create</div>
         </div>
+        <div class="success-snack-bar" ng-show="createRequestStatus.success">
+          <p>Bot successfully created!</p>
+        </div>
+        <div class="error-snack-bar" ng-show="createRequestStatus.error">
+          <p>Unable to create new Bot. Contact admin.</p>
+        </div>
       </div>
     </div>
     <!-- block to show the bot delete confirmation dialogue -->
@@ -98,6 +104,12 @@
           <div class="button-delete" ng-click="sendRequestDeleteBot()">Delete</div>
           <div class="button-cancel" ng-click="cancelRequestDeleteBot()">Cancel</div>
         </div>
+        <div class="success-snack-bar" ng-show="deleteRequestStatus.success">
+          <p>Bot successfully deleted!</p>
+        </div>
+        <div class="error-snack-bar" ng-show="deleteRequestStatus.error">
+          <p>Unable to delete bot. Contact admin.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -111,5 +123,4 @@
     </div>
   </footer>
 </body>
-
 </html>
