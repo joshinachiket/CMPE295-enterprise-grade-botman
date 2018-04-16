@@ -14,12 +14,12 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
 
   /*snack bar object*/
   $scope.deleteRequestStatus = {
-    success:false,
-    error:false
+    success: false,
+    error: false
   }
   $scope.createRequestStatus = {
-    success:false,
-    error:false
+    success: false,
+    error: false
   }
 
   $scope.botList = [];
@@ -53,36 +53,41 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
       console.log(response);
       if (response.data.statusCode === 200) {
         console.log("bot successfully created");
-          $scope.createRequestStatus.error = false;
-          $scope.createRequestStatus.success = true;
+        $scope.createRequestStatus.error = false;
+        $scope.createRequestStatus.success = true;
       } else {
         console.log("Error creating bot");
-          $scope.createRequestStatus.error = true;
-          $scope.createRequestStatus.success = false;
-      }
-    }, function errorCallback(response) {
         $scope.createRequestStatus.error = true;
         $scope.createRequestStatus.success = false;
+      }
+    }, function errorCallback(response) {
+      $scope.createRequestStatus.error = true;
+      $scope.createRequestStatus.success = false;
     });
-      $timeout(function () {
-          $scope.showDialogueCreateBot = false;
-          $scope.createRequestStatus.error = false;
-          $scope.createRequestStatus.success = false;
-          $scope.loadData();
-      }, 5000);
+    $timeout(function() {
+      $scope.showDialogueCreateBot = false;
+      $scope.createRequestStatus.error = false;
+      $scope.createRequestStatus.success = false;
+      $scope.loadData();
+    }, 5000);
   };
 
 
-  $scope.deleteBot = function(bId) {
+  $scope.deleteBot = function(bId, bName) {
     $scope.deleteBotWithId = bId;
     $scope.showDialogueDeleteBot = true;
-      var li = $scope.botList;
-      for (i = 0; i < li.length; i++) {
-          if (li[i]._id === bId) {
-              console.log(li[i]._id);
-              $scope.deleteBotWithName = li[i].botName;
-          }
-      }
+    $scope.deleteBotWithName = bName;
+  }
+
+  $scope.editBot = function(bType) {
+    // assign a new depending upon the Type
+    if (bType === "nlp_bot") {
+      console.log("1. Opening bot template for bot type" + bType);
+      window.location = "./templates/nlp_bot_template.html";
+    } else if (bType === "simple_bot") {
+      console.log("2. Opening bot template for bot type " + bType);
+      window.location = "./templates/simple_bot_template.html";
+    }
   }
 
   $scope.sendRequestDeleteBot = function(data) {
@@ -95,29 +100,29 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
       url: '/user/deleteUserBot',
       data: deletebot_payload
     }).then(function successCallback(response) {
-        console.log(response);
+      console.log(response);
       if (response.data.statusCode === 200) {
         console.log("bot successfully deleted");
-          $scope.deleteRequestStatus.success = true;
-          $scope.deleteRequestStatus.error = false;
+        $scope.deleteRequestStatus.success = true;
+        $scope.deleteRequestStatus.error = false;
       } else {
-          $scope.deleteRequestStatus.error = true;
-          $scope.deleteRequestStatus.success = false;
-      }
-    }, function errorCallback(response) {
         $scope.deleteRequestStatus.error = true;
         $scope.deleteRequestStatus.success = false;
+      }
+    }, function errorCallback(response) {
+      $scope.deleteRequestStatus.error = true;
+      $scope.deleteRequestStatus.success = false;
     });
-      $timeout(function () {
-          $scope.showDialogueDeleteBot = false;
-          $scope.deleteRequestStatus.error = false;
-          $scope.deleteRequestStatus.success = false;
-          $scope.loadData();
-      }, 5000);
+    $timeout(function() {
+      $scope.showDialogueDeleteBot = false;
+      $scope.deleteRequestStatus.error = false;
+      $scope.deleteRequestStatus.success = false;
+      $scope.loadData();
+    }, 5000);
   };
 
-  $scope.sayHi = function(){
-      console.log("hi");
+  $scope.sayHi = function() {
+    console.log("hi");
   };
 
   $scope.cancelRequestDeleteBot = function() {

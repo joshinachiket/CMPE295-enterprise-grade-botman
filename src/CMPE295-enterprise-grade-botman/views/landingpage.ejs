@@ -32,7 +32,7 @@
   <section class="section1">
     <div class="section-heading">
       <p>My Bots</p>
-      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" ng-click="showDialogueCreateBot = true"/>
+      <img class="add-logo" id="add-bot" src="/images/assets/add_blue.png" alt="add" ng-click="showDialogueCreateBot = true" />
     </div>
     <div>
       <table class="table-container">
@@ -50,8 +50,8 @@
           <td>{{x.botType}}</td>
           <td>1</td>
           <!--health-->
-          <td ng-click="editBot(x._id)"><img alt="edit" src="images/assets/edit_ic.png" /> </td>
-          <td ng-click="deleteBot(x._id)"><img alt="edit" src="images/assets/delete_ic.png" /></td>
+          <td ng-click="editBot(x.botType)"><img alt="edit" src="images/assets/edit_ic.png" /> </td>
+          <td ng-click="deleteBot(x._id, x.botName)"><img alt="edit" src="images/assets/delete_ic.png" /></td>
         </tr>
       </table>
     </div>
@@ -121,4 +121,5 @@
     </div>
   </footer>
 </body>
+
 </html>
