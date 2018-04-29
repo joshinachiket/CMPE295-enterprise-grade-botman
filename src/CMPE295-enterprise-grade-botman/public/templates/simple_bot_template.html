@@ -1,13 +1,80 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta charset="utf-8">
-  <title>SIMPLE BOT Template</title>
+  <meta charset="UTF-8">
+  <meta name="login-page" content="noindex">
+  <title>Botman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Custom styles for this template -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/qabotedit.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
+  <script type="text/javascript" src="/angular/qaeditbot.js">
+  </script>
+
 </head>
-
 <body>
-  <h1>This is SIMPLE BOT Template</h1>
+<header class="header-mod">
+  <div class="header-container">
+    <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
+    <span class="header_name">Botman</span>
+  </div>
+</header>
+<section class="section1" ng-app="QABotTemplate" ng-controller="BotEdit">
+  <div class="section-mapping">
+    <div class="mapping">
+      <div class="one-mapping" ng-repeat="(user,bot) in bot.mapping">
+        <img class="remove-mapping" src="/images/assets/cancel.png" ng-click="removeMapping(user)"/>
+        <div><img src="/images/assets/user-say.png"><input class="user-say" type="text" style="pointer-events:none;" name="usersay" value="{{user}}"/></div>
+        <div><input class="bot-say" type="text" name="botsay" style="pointer-events:none;" value="{{bot}}" /><img src="/images/assets/bot-say.png"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-unmapped">
+    <div class="section-heading">
+          <p>Questions Asked to me but couldn't reply.</p>
+    </div>
+    <div class="no-mapping-container">
+      <ul>
+        <li ng-repeat="ele in bot.unmapped">{{ele}}</li>
+      </ul>
+    </div>
+    <div class="button-container">
+      <input type="button" value="Add" class="button-style" ng-click="showAddResponseMappingForBot=true"/>
+      <input type="button" value="Update" class="button-style"/>
+    </div>
+  </div>
+  <br class="clear"/>
+  <!-- block to show the add response dialogue -->
+  <div class="fade-background-container" ng-show="showAddResponseMappingForBot">
+    <div class="dialogue-container">
+      <div class="dialogue-header">
+        <h2>Add A Response Mapping</h2>
+      </div>
+      <div class="dialogue-body">
+          <div class="one-mapping">
+            <div><img src="/images/assets/user-say.png"><input class="user-say" type="text" name="usersay" ng-model="userSayVar" placeholder="User asks"/></div>
+            <div><input class="bot-say" type="text" name="botsay" ng-model="botSayVar" placeholder="Bot Reply"/><img src="/images/assets/bot-say.png" ></div>
+          </div>
+      </div>
+      <div class="dialogue-footer">
+        <input type="button" value="Add" ng-click="updateResponseMapping()" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="cancelAddResponseDialog()" class="button-style"/>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div>
+    <ul>
+      <li><a href="">About us</a></li>
+      <li><a href="">Features</a></li>
+    </ul>
+    <p>Botman © 2018. All rights reserved.</p>
+  </div>
+</footer>
 </body>
-
 </html>
