@@ -2,6 +2,24 @@ var app = angular.module('NlpBotTemplate', []);
 
 app.controller('BotEdit', function($scope, $http, $timeout) {
 
+    // dialog visibility variables
+    $scope.showEntityDialogue = false;
+    $scope.showResponseDialogue = false;
+    $scope.showDeleteIntentDialogue = false;
+
+    /*snack bar object*/
+    $scope.updateMappingStatus = {
+       success: false,
+       error: false
+    }
+
+    /** dummy object to store new values **/
+    $scope.dummy = {
+        newIntent:"",
+        newEntity:"",
+        newResponse:""
+    }
+
     $scope.bot = {
         id:'23',
         name: 'Bot2',
@@ -33,24 +51,63 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
         this.toggle = !this.toggle;
     };
 
-    $scope.deleteIntent = function(intent) {
-        console.log('delete intent:'+intent);
-        for (var i = $scope.bot.mapping.length - 1; i >= 0; --i) {
-            if ($scope.bot.mapping[i].intent == intent) {
-                $scope.bot.mapping.splice(i,1);
-            }
+
+    $scope.addIntent = function (intent, entity, response) {
+        var botName = localStorage.getItem("botName");
+        var addIntent_payload = {
+            "bot_name": botName,
+            "intent" : $scope.dummy.newIntent,
+            "entity" : $scope.dummy.newEntity,
+            "response": $scope.dummy.newResponse
         }
+        //send this payload to the server to create new Intent.
+        console.log(addIntent_payload);
     }
 
-    $scope.showEntityDialogue = false;
-    $scope.showResponseDialogue = false;
-
-    $scope.addEntity = function(obj) {
+    $scope.viewEntityDialogue = function(intent) {
         $scope.showEntityDialogue = true;
+        $scope.dummy.newIntent = intent;
     }
 
-    $scope.editResponse = function(obj) {
+    $scope.addEntity = function() {
+        var botName = localStorage.getItem("botName");
+        var addEntity_payload = {
+            "bot_name": botName,
+            "intent" : $scope.dummy.newIntent,
+            "entity" : $scope.dummy.newEntity
+        }
+        //send this payload to the server to add entity to the Intent.
+        console.log(addEntity_payload);
+    }
+
+    $scope.viewEditResponse = function(intent) {
         $scope.showResponseDialogue = true;
+        $scope.dummy.newIntent = intent;
     }
 
+    $scope.updateResponse = function() {
+        var botName = localStorage.getItem("botName");
+        var updateResponse_payload = {
+            "bot_name": botName,
+            "intent" : $scope.dummy.newIntent,
+            "response" : $scope.dummy.newResponse
+        }
+        //send this payload to the server to update the response for an Intent.
+        console.log(updateResponse_payload);
+    }
+
+    $scope.viewDeleteIntentDialogue = function(intent) {
+         $scope.showDeleteIntentDialogue = true;
+         $scope.dummy.newIntent = intent;
+    }
+
+    $scope.deleteIntent = function(intent) {
+        var botName = localStorage.getItem("botName");
+        var deleteIntent_payload = {
+            "bot_name": botName,
+            "intent" : $scope.dummy.newIntent,
+        }
+        //send this payload to the server to delete an Intent.
+        console.log(deleteIntent_payload);
+    }
 });
