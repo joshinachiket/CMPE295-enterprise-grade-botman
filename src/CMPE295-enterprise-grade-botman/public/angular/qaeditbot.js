@@ -49,20 +49,13 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
   $scope.updateResponseMapping = function() {
     console.log($scope.userSayVar);
     console.log($scope.botSayVar);
-    $scope.bot.mapping[$scope.userSayVar] = $scope.botSayVar;
 
-    //remove element from unmapped list if exist
-    for (var i = $scope.bot.unmapped.length - 1; i >= 0; i--) {
-      if ($scope.bot.unmapped[i] === $scope.userSayVar) {
-        $scope.bot.unmapped.splice(i, 1);
-      }
-    }
 
-    //clear variables
-    $scope.userSayVar = "";
-    $scope.botSayVar = "";
-    //Hide dialogue
-    $scope.showAddResponseMappingForBot = false;
+    // //clear variables
+    // $scope.userSayVar = "";
+    // $scope.botSayVar = "";
+    // //Hide dialogue on successful response
+    // $scope.showAddResponseMappingForBot = false;
   }
 
   $scope.removeMapping = function(key) {

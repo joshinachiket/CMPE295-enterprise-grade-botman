@@ -20,15 +20,13 @@ router.get('/getBotMapping/:botname', function(req, res) {
     collection_botmetadata.find({
       botOwner: req.session.username,
       botName: req.params.botname
-    }, {
-      bot: 1
-    }).toArray(function(err, data) {
+    }, {}).toArray(function(err, data) {
 
       json_response = {
         "bots": data,
         "statusCode": 200
       };
-      console.log(json_response);
+      // console.log(json_response);
       res.send(json_response);
     });
 
@@ -97,7 +95,9 @@ router.post('/createUserBot', function(req, res, next) {
           botName: botCreatePayload.bot_name,
           lastEdit: new Date(),
           currentEdit: new Date(),
-          botType: botCreatePayload.bot_type
+          botType: botCreatePayload.bot_type,
+          mapping: "",
+          unmapped: []
         }, function(err, response) {
           if (response) {
             console.log("insert successfull, botinfo inserted");
