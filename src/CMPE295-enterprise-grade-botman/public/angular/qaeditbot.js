@@ -50,13 +50,38 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     console.log($scope.userSayVar);
     console.log($scope.botSayVar);
 
+    var botName = localStorage.getItem("botName");
+
+    var updatebot_payload = {
+      "userQuery": $scope.userSayVar,
+      "botResponse": $scope.botSayVar,
+      "bot_name": botName
+    }
+    console.log(updatebot_payload);
+
+    $http({
+      method: "POST",
+      url: '/user/updateUserBot',
+      data: updatebot_payload
+    }).then(function successCallback(response) {
+      console.log(response);
+      if (response.data.statusCode === 200) {
+        console.log("bot successfully updated");
+        $scope.showAddResponseMappingForBot = false;
+      } else {
+        console.log("Error updating bot");
+      }
+    }, function errorCallback(response) {
+
+    });
+
 
     // //clear variables
     // $scope.userSayVar = "";
     // $scope.botSayVar = "";
     // //Hide dialogue on successful response
     // $scope.showAddResponseMappingForBot = false;
-  }
+  };
 
   $scope.removeMapping = function(key) {
     delete $scope.bot.mapping[key];
