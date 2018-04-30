@@ -116,8 +116,10 @@ router.post('/createUserBot', function(req, res, next) {
   var botCreatePayload = {
     "username": req.session.username,
     "bot_type": req.body.bot_type,
-    "bot_name": req.body.bot_name
+    "bot_name": req.body.bot_name,
+    "nlp_token": req.body.nlp_token
   };
+
   console.log("create bot payload");
   console.log(botCreatePayload);
 
@@ -146,6 +148,7 @@ router.post('/createUserBot', function(req, res, next) {
           lastEdit: new Date(),
           currentEdit: new Date(),
           botType: botCreatePayload.bot_type,
+          nlpToken: botCreatePayload.nlp_token,
           mapping: "",
           unmapped: []
         }, function(err, response) {
