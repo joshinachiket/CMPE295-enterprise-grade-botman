@@ -41,7 +41,8 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
     //apply null check validation and only send request if valid.
     var createbot_payload = {
       "bot_type": $scope.createBotPayload.botType,
-      "bot_name": $scope.createBotPayload.botName
+      "bot_name": $scope.createBotPayload.botName,
+      "nlp_token": $scope.createBotPayload.nlpToken
     }
     console.log(createbot_payload);
 
@@ -79,11 +80,16 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
     $scope.deleteBotWithName = bName;
   }
 
-  $scope.editBot = function(bType) {
+  $scope.editBot = function(bType, botName) {
+
+    // Use browser localstorage
+    console.log(botName);
+    localStorage.setItem("botName", botName);
     // assign a new depending upon the Type
     if (bType === "nlp_bot") {
-      console.log("1. Opening bot template for bot type" + bType);
+      console.log("1. Opening bot template for bot type" + bType);;
       window.location = "./templates/nlp_bot_template.html";
+
     } else if (bType === "simple_bot") {
       console.log("2. Opening bot template for bot type " + bType);
       window.location = "./templates/simple_bot_template.html";

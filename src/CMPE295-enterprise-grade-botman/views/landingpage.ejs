@@ -50,7 +50,7 @@
           <td>{{x.botType}}</td>
           <td>1</td>
           <!--health-->
-          <td ng-click="editBot(x.botType)"><img alt="edit" src="images/assets/edit_ic.png" /> </td>
+          <td ng-click="editBot(x.botType, x.botName)"><img alt="edit" src="images/assets/edit_ic.png" /> </td>
           <td ng-click="deleteBot(x._id, x.botName)"><img alt="edit" src="images/assets/delete_ic.png" /></td>
         </tr>
       </table>
@@ -67,15 +67,16 @@
           <p>Bot Type</p> <br/>
           <div>
             <label>
-                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="simple_bot" ng-init="createBotPayload.botType='simple_bot'"/>
+                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="simple_bot"  ng-click="showTokenWindow=false" ng-init="createBotPayload.botType='simple_bot'"/>
                     Simple Fixed Response Bot
               </label>
           </div>
           <div>
             <label>
-                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="nlp_bot" />
+                  <input type="radio" ng-model="createBotPayload.botType"  name="bot_type" value="nlp_bot" ng-click="showTokenWindow=true"/>
                     NLP Integrated Bot
-              </label>
+            </label><br/>
+            <input type="text" ng-model="createBotPayload.nlpToken" placeholder="NLP bot token" ng-show="showTokenWindow">
           </div>
         </div>
         <div class="bot-create-modal-footer">

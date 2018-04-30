@@ -8,6 +8,83 @@ var ObjectId = require('mongodb').ObjectID;
 var mongo = require('./../database/mongodb');
 var mongoURL = "mongodb://admin:cmpe295b@ds231589.mlab.com:31589/cmpe295-enterprise-grade-botman";
 
+router.post('/updateUserBot', function(req, res, next) {
+  var botUpdatePayload = {
+    "username": req.session.username,
+    "bot_name": req.body.bot_name,
+    "userQuery": req.body.userQuery,
+    "botResponse": req.body.botResponse
+  };
+  console.log("update bot payload");
+  console.log(botUpdatePayload);
+
+  // add bot information to MongoDB collection named UserBotMetadata
+  mongo.connect(mongoURL, function() {
+    console.log("inside mongo connection function of API updateUserBot");
+    // find collectionto insert the database
+    var collection_botmetadata = mongo.collection("UserBotMetadata");
+    var json_response;
+
+    collection_botmetadata.update({
+      botOwner: botUpdatePayload.username,
+      botName: botUpdatePayload.bot_name,
+    }, {
+      $set: {
+        lastEdit: new Date(),
+        currentEdit: new Date(),
+        mapping: {
+          [botUpdatePayload.userQuery]: botUpdatePayload.botResponse
+        },
+        unmapped: []
+      }
+
+    }, function(err, response) {
+      if (response) {
+        console.log("update successfull, botinfo updated");
+        json_response = {
+          "statusCode": 200
+        };
+        res.send(json_response);
+      } else {
+        console.log("update failure, please check");
+        json_response = {
+          "statusCode": 401
+        }
+        res.send(json_response);
+      }
+    });
+  });
+});
+
+
+
+router.get('/getBotMapping/:botname', function(req, res) {
+
+  // bring all the bot information of user from mongodb to front end
+  mongo.connect(mongoURL, function() {
+    console.log("inside mongo connection function of API user/getBotMapping");
+    // find collectionto insert the database
+    var collection_botmetadata = mongo.collection('UserBotMetadata');
+    var json_response;
+
+    collection_botmetadata.find({
+      botOwner: req.session.username,
+      botName: req.params.botname
+    }, {}).toArray(function(err, data) {
+
+      json_response = {
+        "bots": data,
+        "statusCode": 200
+      };
+      // console.log(json_response);
+      res.send(json_response);
+    });
+
+  });
+
+});
+
+
 router.get('/getUserBotList', function(req, res) {
   var username = req.session.username;
   console.log(username);
@@ -39,8 +116,10 @@ router.post('/createUserBot', function(req, res, next) {
   var botCreatePayload = {
     "username": req.session.username,
     "bot_type": req.body.bot_type,
-    "bot_name": req.body.bot_name
+    "bot_name": req.body.bot_name,
+    "nlp_token": req.body.nlp_token
   };
+
   console.log("create bot payload");
   console.log(botCreatePayload);
 
@@ -68,7 +147,10 @@ router.post('/createUserBot', function(req, res, next) {
           botName: botCreatePayload.bot_name,
           lastEdit: new Date(),
           currentEdit: new Date(),
-          botType: botCreatePayload.bot_type
+          botType: botCreatePayload.bot_type,
+          nlpToken: botCreatePayload.nlp_token,
+          mapping: "",
+          unmapped: []
         }, function(err, response) {
           if (response) {
             console.log("insert successfull, botinfo inserted");
