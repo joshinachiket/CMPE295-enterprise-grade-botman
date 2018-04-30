@@ -8,6 +8,35 @@ var ObjectId = require('mongodb').ObjectID;
 var mongo = require('./../database/mongodb');
 var mongoURL = "mongodb://admin:cmpe295b@ds231589.mlab.com:31589/cmpe295-enterprise-grade-botman";
 
+router.get('/getBotMapping/:botname', function(req, res) {
+
+  // bring all the bot information of user from mongodb to front end
+  mongo.connect(mongoURL, function() {
+    console.log("inside mongo connection function of API user/getBotMapping");
+    // find collectionto insert the database
+    var collection_botmetadata = mongo.collection('UserBotMetadata');
+    var json_response;
+
+    collection_botmetadata.find({
+      botOwner: req.session.username,
+      botName: req.params.botname
+    }, {
+      bot: 1
+    }).toArray(function(err, data) {
+
+      json_response = {
+        "bots": data,
+        "statusCode": 200
+      };
+      console.log(json_response);
+      res.send(json_response);
+    });
+
+  });
+
+});
+
+
 router.get('/getUserBotList', function(req, res) {
   var username = req.session.username;
   console.log(username);

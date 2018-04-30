@@ -79,11 +79,16 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
     $scope.deleteBotWithName = bName;
   }
 
-  $scope.editBot = function(bType) {
+  $scope.editBot = function(bType, botName) {
+
+    // Use browser localstorage
+    console.log(botName);
+    localStorage.setItem("botName", botName);
     // assign a new depending upon the Type
     if (bType === "nlp_bot") {
-      console.log("1. Opening bot template for bot type" + bType);
+      console.log("1. Opening bot template for bot type" + bType);;
       window.location = "./templates/nlp_bot_template.html";
+
     } else if (bType === "simple_bot") {
       console.log("2. Opening bot template for bot type " + bType);
       window.location = "./templates/simple_bot_template.html";
