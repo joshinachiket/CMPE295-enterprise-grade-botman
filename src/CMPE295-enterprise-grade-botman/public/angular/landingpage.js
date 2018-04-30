@@ -41,7 +41,8 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
     //apply null check validation and only send request if valid.
     var createbot_payload = {
       "bot_type": $scope.createBotPayload.botType,
-      "bot_name": $scope.createBotPayload.botName
+      "bot_name": $scope.createBotPayload.botName,
+      "nlp_token": $scope.createBotPayload.nlpToken
     }
     console.log(createbot_payload);
 
