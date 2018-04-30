@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/nlpbotedit.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
-  <script type="text/javascript" src="/angular/nlpbot.js">
+  <script type="text/javascript" src="/angular/nlpeditbot.js">
   </script>
 
 </head>
@@ -26,9 +26,24 @@
 <section class="section1" ng-app="NlpBotTemplate" ng-controller="BotEdit">
   <div class="section-mapping">
     <div class="mapping">
-      <div class="one-mapping" ng-repeat="(user,bot) in bot.mapping">
-        <div><img src="/images/assets/user-say.png"><input class="user-say" type="text" style="pointer-events:none;" name="usersay" value="{{user}}"/></div>
-        <div><input class="bot-say" type="text" name="botsay" style="pointer-events:none;" value="{{bot}}" /><img src="/images/assets/bot-say.png"></div>
+      <div class="one-mapping" ng-repeat="obj in bot.mapping">
+        <!--Intent-->
+        <div class="intent-container"> {{obj.intent}} <img src="/images/assets/cancel.png" ng-click="deleteIntent(obj.intent)"/> <img src="/images/assets/expand_ic.png" ng-click="toggleFilter()"/> <br class="clear" /></div>
+        <!--entity-response-->
+        <div class="entity-response-container" ng-show="toggle">
+          <img src="/images/assets/add_ic.png" class="add-entity" ng-click="addEntity(obj)"/>
+          <!--entity-->
+          <div class="entity-container">
+            <ul>
+              <li ng-repeat="entity in obj.entity">{{entity}}</li>
+            </ul>
+          </div>
+          <!--response-->
+          <div class="response-container">
+            <img src="/images/assets/edit_ic.png" class="edit-response" ng-click="editResponse(obj)"/>
+            <em>Response:</em><span>{{obj.response}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -42,26 +57,59 @@
       </ul>
     </div>
     <div class="button-container">
-      <input type="button" value="Add" class="button-style"/>
+      <input type="button" value="Add" class="button-style" ng-click="addNewIntent=true"/>
       <input type="button" value="Update" class="button-style"/>
     </div>
   </div>
   <br class="clear"/>
-  <!-- block to show the bot delete confirmation dialogue -->
-  <div id="bot-delete-model-container" class="fade-background-container" ng-show="showAddResponseMappingForBot">
+  <!-- block to show the add Intent dialogue -->
+  <div class="fade-background-container" ng-show="showEntityDialogue">
     <div class="dialogue-container">
       <div class="dialogue-header">
-        <h2>Add A Response Mapping</h2>
+        <h2>Add New Intent</h2>
       </div>
       <div class="dialogue-body">
           <div class="one-mapping">
-            <div><img src="/images/assets/user-say.png"><input class="user-say" type="text" name="usersay" /></div>
-            <div><input class="bot-say" type="text" name="botsay" /><img src="/images/assets/bot-say.png"></div>
+            <input class="entity-input" type="text" placeholder="Intent"/>
           </div>
       </div>
       <div class="dialogue-footer">
-        <input type="button" value="Add" class="button-style"/>
-        <input type="button" value="Cancel" class="button-style"/>
+        <input type="button" value="Add" ng-click="" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="showEntityDialogue=false" class="button-style"/>
+      </div>
+    </div>
+  </div>
+  <!-- block to show the add entity dialogue -->
+  <div class="fade-background-container" ng-show="showEntityDialogue">
+    <div class="dialogue-container">
+      <div class="dialogue-header">
+        <h2>Add Entity</h2>
+      </div>
+      <div class="dialogue-body">
+          <div class="one-mapping">
+            <input class="entity-input" type="text" placeholder="Entity"/>
+          </div>
+      </div>
+      <div class="dialogue-footer">
+        <input type="button" value="Add" ng-click="" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="showEntityDialogue=false" class="button-style"/>
+      </div>
+    </div>
+  </div>
+  <!-- block to show update dialogue -->
+  <div class="fade-background-container" ng-show="showResponseDialogue">
+    <div class="dialogue-container">
+      <div class="dialogue-header">
+        <h2>Update Response</h2>
+      </div>
+      <div class="dialogue-body">
+          <div class="one-mapping">
+            <input class="entity-input" type="text" placeholder="New Response"/>
+          </div>
+      </div>
+      <div class="dialogue-footer">
+        <input type="button" value="Update" ng-click="" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="showResponseDialogue=false" class="button-style"/>
       </div>
     </div>
   </div>
