@@ -16,7 +16,7 @@ router.post('/updateUserBot', function(req, res, next) {
     "botResponse": req.body.botResponse
   };
   console.log("update bot payload");
-  console.log(botUpdatePayload);
+  // console.log(botUpdatePayload);
 
   // add bot information to MongoDB collection named UserBotMetadata
   mongo.connect(mongoURL, function() {
@@ -29,13 +29,10 @@ router.post('/updateUserBot', function(req, res, next) {
       botOwner: botUpdatePayload.username,
       botName: botUpdatePayload.bot_name,
     }, {
-      $set: {
-        lastEdit: new Date(),
-        currentEdit: new Date(),
-        mapping: {
+      "$push": {
+        "mapping": {
           [botUpdatePayload.userQuery]: botUpdatePayload.botResponse
-        },
-        unmapped: []
+        }
       }
 
     }, function(err, response) {
@@ -149,7 +146,7 @@ router.post('/createUserBot', function(req, res, next) {
           currentEdit: new Date(),
           botType: botCreatePayload.bot_type,
           nlpToken: botCreatePayload.nlp_token,
-          mapping: "",
+          mapping: [],
           unmapped: []
         }, function(err, response) {
           if (response) {
