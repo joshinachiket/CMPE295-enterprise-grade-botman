@@ -137,10 +137,11 @@ section {
     background-color: white;
     border-radius: 30px;
     width:120px;
-    padding:10px 35px 10px 35px;
+    padding:10px 15px 10px 15px;
     margin: 0px 30px;
     font-weight: bold;
     text-align: center;
+    cursor:pointer;
 }
 
 .button-style:hover {
@@ -262,4 +263,13 @@ section {
     border: 1px solid #73AD21;
     padding: 5px;
     margin: 2px 0px;
+}
+
+.short-disabled-input {
+    border-radius: 10px;
+    width: 60%;
+    border: 1px solid #73AD21;
+    padding: 5px;
+    margin: 2px 0px;
+    pointer-events:none;
 }
