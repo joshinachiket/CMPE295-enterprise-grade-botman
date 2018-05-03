@@ -241,4 +241,76 @@ router.post('/deleteUserBot', function(req, res, next) {
   });
 });
 
+
+/**
+  Url request mapping for NLP bot.
+ **/
+
+/**
+ * Add New Intent.
+ * payload:
+ *
+ *  "bot_name": botName,
+    "intent"  : $scope.dummy.newIntent,
+    "entity"  : $scope.dummy.newEntity,
+    "response": $scope.dummy.newResponse
+ */
+
+router.post('/updateNLPUserBotMapping/addIntent', function(req, res, next) {
+
+    var botAddIntentPayload = {
+        "username": req.session.username,
+        "bot_name": req.body.bot_name,
+        "intent": req.body.intent,
+        "entity": req.body.entity,
+        "response": req.body.response
+    };
+
+    console.log("Add intent bot payload");
+    console.log(botAddIntentPayload);
+
+    // add bot information to MongoDB collection named UserBotMetadata
+    mongo.connect(mongoURL, function() {
+        console.log("inside mongo connection function of API updateUserBot");
+        // find collectionto insert the database
+        var collection_botmetadata = mongo.collection("UserBotMetadata");
+        var json_response;
+
+        collection_botmetadata.update({
+            botOwner: botAddIntentPayload.username,
+            botName: botAddIntentPayload.bot_name,
+        }, {
+            "$push": {
+                "mapping": {
+                    "intent" : botAddIntentPayload.intent,
+                    "entity": [botAddIntentPayload.entity],
+                    "response": botAddIntentPayload.response
+                }
+            }
+
+        }, function(err, response) {
+            if (response) {
+                console.log("update successfull, botinfo updated");
+                json_response = {
+                    "statusCode": 200
+                };
+                res.send(json_response);
+            } else {
+                console.log("update failure, please check");
+                json_response = {
+                    "statusCode": 401
+                }
+                res.send(json_response);
+            }
+        });
+    });
+});
+
+
+/**
+ * Delete Intent
+ * payload:
+ *
+ *
+ */
 module.exports = router;

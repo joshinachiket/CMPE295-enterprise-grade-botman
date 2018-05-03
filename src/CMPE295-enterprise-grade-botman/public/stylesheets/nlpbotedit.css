@@ -273,3 +273,22 @@ section {
     margin: 2px 0px;
     pointer-events:none;
 }
+
+
+.success-snack-bar {
+    background-color: #088A08;
+    font-family:Arial;
+    font-size: 12px;
+    text-align: center;
+    padding: 3px 10px;
+    color: white;
+}
+
+.error-snack-bar {
+    background-color: #DF013A;
+    font-family:Arial;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+}

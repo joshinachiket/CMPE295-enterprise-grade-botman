@@ -23,7 +23,7 @@
     <span class="header_name">Botman</span>
   </div>
 </header>
-<section class="section1" ng-app="NlpBotTemplate" ng-controller="BotEdit">
+<section class="section1" ng-app="NlpBotTemplate" ng-controller="BotEdit" ng-init="loadData()">
   <div class="section-mapping">
     <div class="mapping">
       <div class="one-mapping" ng-repeat="obj in bot.mapping">
@@ -57,13 +57,13 @@
       </ul>
     </div>
     <div class="button-container">
-      <input type="button" value="Add Intent" class="button-style" ng-click="addNewIntentDialogue=true"/>
-      <input type="button" value="Back" class="button-style"/>
+      <input type="button" value="Add Intent" class="button-style" ng-click="showAddNewIntentDialogue=true"/>
+      <input type="button" value="Back" class="button-style" ng-click="goBack()"/>
     </div>
   </div>
   <br class="clear"/>
   <!-- block to show the add Intent dialogue -->
-  <div class="fade-background-container" ng-show="addNewIntentDialogue">
+  <div class="fade-background-container" ng-show="showAddNewIntentDialogue">
     <div class="dialogue-container">
       <div class="dialogue-header">
         <h2>Add New Intent</h2>
@@ -77,7 +77,13 @@
       </div>
       <div class="dialogue-footer">
         <input type="button" value="Add" ng-click="addIntent()" class="button-style"/>
-        <input type="button" value="Cancel" ng-click="addNewIntentDialogue=false" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="showAddNewIntentDialogue=false" class="button-style"/>
+      </div>
+      <div class="success-snack-bar" ng-show="updateMappingAddIntentStatus.success">
+        <p>Successfully Updated!</p>
+      </div>
+      <div class="error-snack-bar" ng-show="updateMappingAddIntentStatus.error">
+        <p>Failed to update. Contact admin.</p>
       </div>
     </div>
   </div>
@@ -96,6 +102,12 @@
         <input type="button" value="Add" ng-click="addEntity()" class="button-style"/>
         <input type="button" value="Cancel" ng-click="showEntityDialogue=false" class="button-style"/>
       </div>
+      <div class="success-snack-bar" ng-show="updateMappingAddEntityStatus.success">
+        <p>Successfully Updated!</p>
+      </div>
+      <div class="error-snack-bar" ng-show="updateMappingAddEntityStatus.error">
+        <p>Failed to update. Contact admin.</p>
+      </div>
     </div>
   </div>
   <!-- block to show update response dialogue -->
@@ -113,6 +125,12 @@
         <input type="button" value="Update" ng-click="updateResponse()" class="button-style"/>
         <input type="button" value="Cancel" ng-click="showResponseDialogue=false" class="button-style"/>
       </div>
+      <div class="success-snack-bar" ng-show="updateMappingUpdateResponseStatus.success">
+        <p>Successfully Updated!</p>
+      </div>
+      <div class="error-snack-bar" ng-show="updateMappingUpdateResponseStatus.error">
+        <p>Failed to update. Contact admin.</p>
+      </div>
     </div>
   </div>
   <!-- block to show delete intent dialogue -->
@@ -129,6 +147,12 @@
       <div class="dialogue-footer">
         <input type="button" value="Update" ng-click="deleteIntent()" class="button-style"/>
         <input type="button" value="Cancel" ng-click="showDeleteIntentDialogue=false" class="button-style"/>
+      </div>
+      <div class="success-snack-bar" ng-show="updateMappingStatus.success">
+        <p>Successfully Updated!</p>
+      </div>
+      <div class="error-snack-bar" ng-show="updateMappingStatus.error">
+        <p>Failed to update. Contact admin.</p>
       </div>
     </div>
   </div>
