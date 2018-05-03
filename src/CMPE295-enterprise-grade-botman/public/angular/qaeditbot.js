@@ -9,11 +9,11 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
   $scope.botSayVar = "";
   $scope.userSayVar = "";
 
-   /*snack bar object*/
-   $scope.updateMappingStatus = {
-       success: false,
-       error: false
-   }
+  /*snack bar object*/
+  $scope.updateMappingStatus = {
+    success: false,
+    error: false
+  }
 
   $scope.loadData = function() {
     var botName = localStorage.getItem("botName");
@@ -33,24 +33,6 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     });
   };
 
-  // $scope.bot = {
-  //   id: '23',
-  //   name: 'Bot2',
-  //   mapping: {
-  //     'Hi': 'Hello',
-  //     'Are you there': 'Yes! I am listening to you.',
-  //     'bye': 'bye',
-  //     'What day is today': 'Today is Monday.',
-  //     'default': 'Sorry! I dont know that.'
-  //   },
-  //   unmapped: [
-  //     'How old are you?',
-  //     'Are you a person?',
-  //     'Nice talking to you?',
-  //     'What about a coffee?'
-  //   ]
-  // };
-
   $scope.updateResponseMapping = function() {
     console.log($scope.userSayVar);
     console.log($scope.botSayVar);
@@ -65,7 +47,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
 
     $http({
       method: "POST",
-      url: '/user/updateUserBot',
+      url: '/user/updateSimpleUserBotMapping',
       data: updatebot_payload
     }).then(function successCallback(response) {
       console.log(response);
@@ -79,8 +61,8 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
         $scope.updateMappingStatus.success = false;
       }
     }, function errorCallback(response) {
-        $scope.updateMappingStatus.error = true;
-        $scope.updateMappingStatus.success = false;
+      $scope.updateMappingStatus.error = true;
+      $scope.updateMappingStatus.success = false;
     });
     $timeout(function() {
       $scope.loadData();
@@ -97,9 +79,22 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     var botName = localStorage.getItem("botName");
     var deletebot_payload = {
       "bot_name": botName,
-      "userQuery": key
+      "mapping_number": key
     }
     console.log(deletebot_payload);
+
+    $http({
+      method: "POST",
+      url: '/user/removeSimpleUserBotMapping',
+      data: deletebot_payload
+    }).then(function successCallback(response) {
+      console.log(response);
+      if (response.data.statusCode === 200) {
+        console.log("botmapping successfully removed");
+      } else {
+        console.log("Error removing botmapping");
+      }
+    }, function errorCallback(response) {});
   }
 
   $scope.cancelAddResponseDialog = function() {

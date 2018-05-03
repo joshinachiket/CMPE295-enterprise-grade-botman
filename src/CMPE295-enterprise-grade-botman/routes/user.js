@@ -8,7 +8,52 @@ var ObjectId = require('mongodb').ObjectID;
 var mongo = require('./../database/mongodb');
 var mongoURL = "mongodb://admin:cmpe295b@ds231589.mlab.com:31589/cmpe295-enterprise-grade-botman";
 
-router.post('/updateUserBot', function(req, res, next) {
+
+router.post('/removeSimpleUserBotMapping', function(req, res, next) {
+  var deletebotPayload = {
+    "username": req.session.username,
+    "bot_name": req.body.bot_name,
+    "mapping_number": req.body.mapping_number
+  };
+  console.log("remove bot payload");
+  console.log(deletebotPayload);
+
+  // add bot information to MongoDB collection named UserBotMetadata
+  mongo.connect(mongoURL, function() {
+    console.log("inside mongo connection function of API removeSimpleUserBotMapping");
+    // find collectionto insert the database
+    var collection_botmetadata = mongo.collection("UserBotMetadata");
+    var json_response;
+
+    collection_botmetadata.update({
+      botOwner: botUpdatePayload.username,
+      botName: botUpdatePayload.bot_name,
+    }, {
+      "$pull": {
+        "mapping": {
+          [botUpdatePayload.userQuery]: botUpdatePayload.botResponse
+        }
+      }
+
+    }, function(err, response) {
+      if (response) {
+        console.log("remove successfull, botinfo updated");
+        json_response = {
+          "statusCode": 200
+        };
+        res.send(json_response);
+      } else {
+        console.log("update failure, please check");
+        json_response = {
+          "statusCode": 401
+        }
+        res.send(json_response);
+      }
+    });
+  });
+});
+
+router.post('/updateSimpleUserBotMapping', function(req, res, next) {
   var botUpdatePayload = {
     "username": req.session.username,
     "bot_name": req.body.bot_name,
