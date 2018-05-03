@@ -75,14 +75,14 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     }, 5000);
   };
 
-  $scope.removeMapping = function(key) {
+  $scope.removeMapping = function(userSay, botRespond) {
     var botName = localStorage.getItem("botName");
     var deletebot_payload = {
-      "bot_name": botName,
-      "mapping_number": key
+        "bot_name": botName,
+        "userSay": userSay,
+        "botRespond": botRespond
     }
     console.log(deletebot_payload);
-
     $http({
       method: "POST",
       url: '/user/removeSimpleUserBotMapping',
@@ -94,6 +94,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
       } else {
         console.log("Error removing botmapping");
       }
+      $scope.loadData();
     }, function errorCallback(response) {});
   }
 

@@ -10,28 +10,31 @@ var mongoURL = "mongodb://admin:cmpe295b@ds231589.mlab.com:31589/cmpe295-enterpr
 
 
 router.post('/removeSimpleUserBotMapping', function(req, res, next) {
-  var deletebotPayload = {
+  var deleteMappingPayload = {
     "username": req.session.username,
     "bot_name": req.body.bot_name,
-    "mapping_number": req.body.mapping_number
+    "userSay": req.body.userSay,
+    "botRespond" : req.body.botRespond
   };
   console.log("remove bot payload");
-  console.log(deletebotPayload);
+  console.log(deleteMappingPayload);
 
   // add bot information to MongoDB collection named UserBotMetadata
   mongo.connect(mongoURL, function() {
     console.log("inside mongo connection function of API removeSimpleUserBotMapping");
+
     // find collectionto insert the database
     var collection_botmetadata = mongo.collection("UserBotMetadata");
     var json_response;
 
     collection_botmetadata.update({
-      botOwner: botUpdatePayload.username,
-      botName: botUpdatePayload.bot_name,
+      botOwner: deleteMappingPayload.username,
+      botName: deleteMappingPayload.bot_name,
     }, {
       "$pull": {
         "mapping": {
-          [botUpdatePayload.userQuery]: botUpdatePayload.botResponse
+            userSay : deleteMappingPayload.userSay,
+            botRespond : deleteMappingPayload.botRespond
         }
       }
 
@@ -76,10 +79,10 @@ router.post('/updateSimpleUserBotMapping', function(req, res, next) {
     }, {
       "$push": {
         "mapping": {
-          [botUpdatePayload.userQuery]: botUpdatePayload.botResponse
+          "userSay" : botUpdatePayload.userQuery,
+          "botRespond": botUpdatePayload.botResponse
         }
       }
-
     }, function(err, response) {
       if (response) {
         console.log("update successfull, botinfo updated");

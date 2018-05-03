@@ -26,10 +26,10 @@
   <section class="section1" ng-app="QABotTemplate" ng-controller="BotEdit" ng-init="loadData()">
     <div class=" section-mapping ">
       <div class="mapping ">
-        <div class="one-mapping " ng-repeat="(user,bot) in bot.mapping ">
-          <img class="remove-mapping " src="/images/assets/cancel.png " ng-click="removeMapping(user) " />
-          <div><img src="/images/assets/user-say.png "><input class="user-say " type="text " style="pointer-events:none; " name="usersay " value="{{user}} " /></div>
-          <div><input class="bot-say " type="text " name="botsay " style="pointer-events:none; " value="{{bot}} " /><img src="/images/assets/bot-say.png "></div>
+        <div class="one-mapping " ng-repeat="map in bot.mapping ">
+          <img class="remove-mapping " src="/images/assets/cancel.png " ng-click="removeMapping(map.userSay,map.botRespond) " />
+          <div><img src="/images/assets/user-say.png "><input class="user-say " type="text " style="pointer-events:none; " name="usersay " value="{{map.userSay}} " /></div>
+          <div><input class="bot-say " type="text " name="botsay " style="pointer-events:none; " value="{{map.botRespond}} " /><img src="/images/assets/bot-say.png "></div>
         </div>
       </div>
     </div>
