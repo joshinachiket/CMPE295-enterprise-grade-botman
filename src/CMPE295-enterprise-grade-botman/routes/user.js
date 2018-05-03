@@ -275,7 +275,7 @@ router.post('/updateNLPUserBotMapping/addIntent', function(req, res, next) {
     // add bot information to MongoDB collection named UserBotMetadata
     mongo.connect(mongoURL, function() {
         console.log("inside mongo connection function of API updateUserBot");
-        // find collectionto insert the database
+        // find collection to insert the database
         var collection_botmetadata = mongo.collection("UserBotMetadata");
         var json_response;
 
@@ -293,7 +293,7 @@ router.post('/updateNLPUserBotMapping/addIntent', function(req, res, next) {
 
         }, function(err, response) {
             if (response) {
-                console.log("update successfull, botinfo updated");
+                console.log("update successful, bot info updated");
                 json_response = {
                     "statusCode": 200
                 };
@@ -311,9 +311,147 @@ router.post('/updateNLPUserBotMapping/addIntent', function(req, res, next) {
 
 
 /**
- * Delete Intent
- * payload:
- *
- *
+ * Delete Intent.
  */
+router.delete('/bot/:botName/intent/:intent', function(req, res, next) {
+
+    console.log("Deleting intent "+ req.params.intent + " for bot " + req.params.botName + " of user " + req.session.username);
+
+    // add bot information to MongoDB collection named UserBotMetadata
+    mongo.connect(mongoURL, function() {
+        console.log("inside mongo connection function of API delete intent");
+        // find collection to insert the database
+        var collection_botmetadata = mongo.collection("UserBotMetadata");
+        var json_response;
+
+        collection_botmetadata.update({
+            botOwner: req.session.username,
+            botName: req.params.botName
+        }, {
+            "$pull": {
+                "mapping": {
+                    "intent" : req.params.intent
+                }
+            }
+
+        }, function(err, response) {
+            if (response) {
+                console.log("update successful, bot info updated");
+                json_response = {
+                    "statusCode": 200
+                };
+                res.send(json_response);
+            } else {
+                console.log("update failure, please check");
+                json_response = {
+                    "statusCode": 401
+                }
+                res.send(json_response);
+            }
+        });
+    });
+});
+
+
+/**
+ * Add Entity.
+ */
+router.post('/bot/:botName/intent/:intent/:entity', function(req, res, next) {
+
+    console.log("Adding entity "+req.params.entity + " for intent "+ req.params.intent + " of bot " + req.params.botName + " of user " + req.session.username);
+
+    // add bot information to MongoDB collection named UserBotMetadata
+    mongo.connect(mongoURL, function() {
+        console.log("inside mongo connection function of API add entity");
+        // find collection to insert the database
+        var collection_botmetadata = mongo.collection("UserBotMetadata");
+
+
+        collection_botmetadata.findOne({
+            "botOwner": req.session.username,
+            "botName": req.params.botName
+        }, function(err, botMetadata) {
+
+            console.log(botMetadata);
+            console.log(botMetadata.mapping);
+            let thisMapping = botMetadata.mapping;
+            for(var i=0; i < thisMapping.length; i++) {
+              if(thisMapping[i].intent === req.params.intent) {
+                console.log("Found intent to update");
+                thisMapping[i].entity.push(req.params.entity);
+                console.log(thisMapping);
+                break;
+              }
+            }
+
+            collection_botmetadata.update({
+                botOwner: req.session.username,
+                botName: req.params.botName
+            }, {
+                "$set": {
+                    "mapping": thisMapping
+                }
+
+            }, function(err, response) {
+                if (response) {
+                    console.log("update successful, bot info updated");
+                    json_response = {
+                        "statusCode": 200
+                    };
+                    res.send(json_response);
+                } else {
+                    console.log("update failure, please check");
+                    json_response = {
+                        "statusCode": 401
+                    }
+                    res.send(json_response);
+                }
+            });
+        });
+      });
+});
+
+
+/**
+ * Update Intent Response.
+ */
+router.put('/bot/:botName/intent/:intent/:response', function(req, res, next) {
+
+    console.log("Updating response for intent "+ req.params.intent + " for bot " + req.params.botName + " of user " + req.session.username);
+
+    // add bot information to MongoDB collection named UserBotMetadata
+    mongo.connect(mongoURL, function() {
+        console.log("inside mongo connection function of API delete intent");
+        // find collection to insert the database
+        var collection_botmetadata = mongo.collection("UserBotMetadata");
+        var json_response;
+
+        collection_botmetadata.updateOne({
+            botOwner: req.session.username,
+            botName: req.params.botName,
+            "mapping.intent" : req.params.intent
+        }, {
+            "$set": {
+                "mapping.$.response" : req.params.response
+            }
+
+
+        }, function(err, response) {
+            if (response) {
+                console.log("update successful, bot info updated");
+                json_response = {
+                    "statusCode": 200
+                };
+                res.send(json_response);
+            } else {
+                console.log("update failure, please check");
+                json_response = {
+                    "statusCode": 401
+                }
+                res.send(json_response);
+            }
+        });
+    });
+});
+
 module.exports = router;

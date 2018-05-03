@@ -4,7 +4,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
 
     // dialog visibility variables
     $scope.showAddNewIntentDialogue = false;
-    $scope.showEntityDialogue = false;
+    $scope.addEntityDialogue = false;
     $scope.showResponseDialogue = false;
     $scope.showDeleteIntentDialogue = false;
 
@@ -17,7 +17,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
         success: false,
         error: false
     }
-    $scope.updateMappingAddIntentStatus = {
+    $scope.updateMappingDeleteIntentStatus = {
         success: false,
         error: false
     }
@@ -125,7 +125,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     }
 
     $scope.viewEntityDialogue = function(intent) {
-        $scope.showEntityDialogue = true;
+        $scope.addEntityDialogue = true;
         $scope.dummy.newIntent = intent;
     }
 
@@ -133,11 +133,38 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
         var botName = localStorage.getItem("botName");
         var addEntity_payload = {
             "bot_name": botName,
-            "intent" : $scope.dummy.newIntent,
-            "entity" : $scope.dummy.newEntity
+            "intent": $scope.dummy.newIntent,
+            "entity": $scope.dummy.newEntity
         }
         //send this payload to the server to add entity to the Intent.
-        console.log(addEntity_payload);
+        $http({
+            method: "POST",
+            url: "/user/bot/" + botName + "/intent/" + $scope.dummy.newIntent + "/" + $scope.dummy.newEntity,
+        }).then(function successCallback(response) {
+            console.log(response);
+            if (response.data.statusCode === 200) {
+                console.log("bot successfully updated");
+                $scope.updateMappingAddEntityStatus.success = true;
+                $scope.updateMappingAddEntityStatus.error = false;
+            } else {
+                console.log("Error updating bot");
+                $scope.updateMappingAddEntityStatus.error = true;
+                $scope.updateMappingAddEntityStatus.success = false;
+            }
+        }, function errorCallback(response) {
+            $scope.updateMappingAddEntityStatus.error = true;
+            $scope.updateMappingAddEntityStatus.success = false;
+        });
+        $timeout(function () {
+            $scope.loadData();
+            //clear variables
+            $scope.dummy.newIntent = "";
+            $scope.dummy.newEntity = "";
+            $scope.dummy.newResponse = "";
+            $scope.addEntityDialogue = false;
+            $scope.updateMappingAddEntityStatus.error = false;
+            $scope.updateMappingAddEntityStatus.success = false;
+        }, 5000);
     }
 
     $scope.viewEditResponse = function(intent) {
@@ -147,13 +174,36 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
 
     $scope.updateResponse = function() {
         var botName = localStorage.getItem("botName");
-        var updateResponse_payload = {
-            "bot_name": botName,
-            "intent" : $scope.dummy.newIntent,
-            "response" : $scope.dummy.newResponse
-        }
         //send this payload to the server to update the response for an Intent.
-        console.log(updateResponse_payload);
+        console.log()
+        $http({
+            method: "PUT",
+            url: "/user/bot/" + botName + "/intent/" + $scope.dummy.newIntent + "/"+ $scope.dummy.newResponse,
+        }).then(function successCallback(response) {
+            console.log(response);
+            if (response.data.statusCode === 200) {
+                console.log("bot successfully updated");
+                $scope.updateMappingUpdateResponseStatus.success = true;
+                $scope.updateMappingUpdateResponseStatus.error = false;
+            } else {
+                console.log("Error updating bot");
+                $scope.updateMappingUpdateResponseStatus.error = true;
+                $scope.updateMappingUpdateResponseStatus.success = false;
+            }
+        }, function errorCallback(response) {
+            $scope.updateMappingUpdateResponseStatus.error = true;
+            $scope.updateMappingUpdateResponseStatus.success = false;
+        });
+        $timeout(function() {
+            $scope.loadData();
+            //clear variables
+            $scope.dummy.newIntent = "";
+            $scope.dummy.newEntity = "";
+            $scope.dummy.newResponse = "";
+            $scope.showResponseDialogue = false;
+            $scope.updateMappingUpdateResponseStatus.error = false;
+            $scope.updateMappingUpdateResponseStatus.success = false;
+        }, 5000);
     }
 
     $scope.viewDeleteIntentDialogue = function(intent) {
@@ -161,14 +211,38 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
          $scope.dummy.newIntent = intent;
     }
 
-    $scope.deleteIntent = function(intent) {
+    $scope.deleteIntent = function() {
         var botName = localStorage.getItem("botName");
-        var deleteIntent_payload = {
-            "bot_name": botName,
-            "intent" : $scope.dummy.newIntent,
-        }
-        //send this payload to the server to delete an Intent.
-        console.log(deleteIntent_payload);
+        console.log("/user/bot/" + botName + "/intent/" + $scope.dummy.newIntent);
+        //send this payload to the server to create new Intent.
+        $http({
+            method: "DELETE",
+            url: "/user/bot/" + botName + "/intent/" + $scope.dummy.newIntent,
+        }).then(function successCallback(response) {
+            console.log(response);
+            if (response.data.statusCode === 200) {
+                console.log("bot successfully updated");
+                $scope.updateMappingDeleteIntentStatus.success = true;
+                $scope.updateMappingDeleteIntentStatus.error = false;
+            } else {
+                console.log("Error updating bot");
+                $scope.updateMappingDeleteIntentStatus.error = true;
+                $scope.updateMappingDeleteIntentStatus.success = false;
+            }
+        }, function errorCallback(response) {
+            $scope.updateMappingDeleteIntentStatus.error = true;
+            $scope.updateMappingDeleteIntentStatus.success = false;
+        });
+        $timeout(function() {
+            $scope.loadData();
+            //clear variables
+            $scope.dummy.newIntent = "";
+            $scope.dummy.newEntity = "";
+            $scope.dummy.newResponse = "";
+            $scope.showDeleteIntentDialogue = false;
+            $scope.updateMappingDeleteIntentStatus.error = false;
+            $scope.updateMappingDeleteIntentStatus.success = false;
+        }, 5000);
     }
 
     $scope.goBack = function() {

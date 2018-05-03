@@ -88,7 +88,7 @@
     </div>
   </div>
   <!-- block to show the add entity dialogue -->
-  <div class="fade-background-container" ng-show="showEntityDialogue">
+  <div class="fade-background-container" ng-show="addEntityDialogue">
     <div class="dialogue-container">
       <div class="dialogue-header">
         <h2>Add Entity</h2>
@@ -100,7 +100,7 @@
       </div>
       <div class="dialogue-footer">
         <input type="button" value="Add" ng-click="addEntity()" class="button-style"/>
-        <input type="button" value="Cancel" ng-click="showEntityDialogue=false" class="button-style"/>
+        <input type="button" value="Cancel" ng-click="addEntityDialogue=false" class="button-style"/>
       </div>
       <div class="success-snack-bar" ng-show="updateMappingAddEntityStatus.success">
         <p>Successfully Updated!</p>
@@ -145,13 +145,13 @@
           </div>
       </div>
       <div class="dialogue-footer">
-        <input type="button" value="Update" ng-click="deleteIntent()" class="button-style"/>
+        <input type="button" value="Delete" ng-click="deleteIntent()" class="button-style"/>
         <input type="button" value="Cancel" ng-click="showDeleteIntentDialogue=false" class="button-style"/>
       </div>
-      <div class="success-snack-bar" ng-show="updateMappingStatus.success">
+      <div class="success-snack-bar" ng-show="updateMappingDeleteIntentStatus.success">
         <p>Successfully Updated!</p>
       </div>
-      <div class="error-snack-bar" ng-show="updateMappingStatus.error">
+      <div class="error-snack-bar" ng-show="updateMappingDeleteIntentStatus.error">
         <p>Failed to update. Contact admin.</p>
       </div>
     </div>
