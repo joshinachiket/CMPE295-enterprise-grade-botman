@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectID;
+const witai = require('./../nlp_integration/witai');
 
 
 var mongo = require('./../database/mongodb');
@@ -23,7 +24,7 @@ router.post('/removeSimpleUserBotMapping', function(req, res, next) {
   mongo.connect(mongoURL, function() {
     console.log("inside mongo connection function of API removeSimpleUserBotMapping");
 
-    // find collectionto insert the database
+    // find collection to insert the database
     var collection_botmetadata = mongo.collection("UserBotMetadata");
     var json_response;
 
@@ -171,7 +172,7 @@ router.post('/createUserBot', function(req, res, next) {
   // add bot information to MongoDB collection named UserBotMetadata
   mongo.connect(mongoURL, function() {
     console.log("inside mongo connection function of API createUserBot");
-    // find collectionto insert the database
+    // find collection to insert the database
     var collection_botmetadata = mongo.collection("UserBotMetadata");
     var json_response;
 
@@ -186,31 +187,71 @@ router.post('/createUserBot', function(req, res, next) {
         };
         res.send(json_responses);
       } else {
-        collection_botmetadata.insert({
-          botOwner: botCreatePayload.username,
-          // botId: getNextSequenceValue("botId"),
-          botName: botCreatePayload.bot_name,
-          lastEdit: new Date(),
-          currentEdit: new Date(),
-          botType: botCreatePayload.bot_type,
-          nlpToken: botCreatePayload.nlp_token,
-          mapping: [],
-          unmapped: []
-        }, function(err, response) {
-          if (response) {
-            console.log("insert successfull, botinfo inserted");
-            json_response = {
-              "statusCode": 200
-            };
-            res.send(json_response);
-          } else {
-            console.log("insert failure, please check");
-            json_response = {
-              "statusCode": 401
-            }
-            res.send(json_response);
-          }
-        });
+        if(botCreatePayload.bot_type === "nlp_bot") {
+            witai.createBot(botCreatePayload.nlp_token, botCreatePayload.bot_name, (response) => {
+              console.log("Creating witai bot response " + JSON.stringify(response));
+              if(response.status === "SUCCESS") {
+                  collection_botmetadata.insert({
+                      botOwner: botCreatePayload.username,
+                      // botId: getNextSequenceValue("botId"),
+                      botName: botCreatePayload.bot_name,
+                      lastEdit: new Date(),
+                      currentEdit: new Date(),
+                      botType: botCreatePayload.bot_type,
+                      nlpToken: response.body.access_token,
+                      appId: response.body.app_id,
+                      mapping: [],
+                      unmapped: []
+                  }, function(err, response) {
+                      if (response) {
+                          console.log("insert successful, botinfo inserted");
+                          json_response = {
+                              "statusCode": 200
+                          };
+                          res.send(json_response);
+                      } else {
+                          console.log("insert failure, please check");
+                          json_response = {
+                              "statusCode": 401
+                          }
+                          res.send(json_response);
+                      }
+                  });
+              } else {
+                  console.log("insert failure, please check");
+                  json_response = {
+                      "statusCode": 401
+                  }
+                  res.send(json_response);
+              }
+            });
+        } else {
+            collection_botmetadata.insert({
+                botOwner: botCreatePayload.username,
+                // botId: getNextSequenceValue("botId"),
+                botName: botCreatePayload.bot_name,
+                lastEdit: new Date(),
+                currentEdit: new Date(),
+                botType: botCreatePayload.bot_type,
+                nlpToken: botCreatePayload.nlp_token,
+                mapping: [],
+                unmapped: []
+            }, function(err, response) {
+                if (response) {
+                    console.log("insert successfull, botinfo inserted");
+                    json_response = {
+                        "statusCode": 200
+                    };
+                    res.send(json_response);
+                } else {
+                    console.log("insert failure, please check");
+                    json_response = {
+                        "statusCode": 401
+                    }
+                    res.send(json_response);
+                }
+            });
+        }
       }
     });
   });
@@ -221,27 +262,71 @@ router.post('/deleteUserBot', function(req, res, next) {
   var bId = req.body.bid;
   console.log("delete bot payload");
   console.log(bId);
+    var collection_botmetadata = mongo.collection('UserBotMetadata');
+    collection_botmetadata.findOne({
+        _id: ObjectId(bId)
+    }, function(err, botMetadata) {
+        if (err) {
+            console.log("Failed to fetch bot information");
 
-  // add bot information to MongoDB collection named UserBotMetadata
-  mongo.connect(mongoURL, function() {
-    console.log("inside mongo connection function of API deleteUserBot");
-    var collection_botmetadata = mongo.collection("UserBotMetadata");
-    var json_response;
+            json_responses = {
+                "statusCode": 402
+            };
+            res.send(json_responses);
+        } else {
+            if (botMetadata.botType === "nlp_bot") {
+              witai.deleteBot(botMetadata.nlpToken, botMetadata.appId, (result) => {
+                if(result.status === "SUCCESS") {
+                    mongo.connect(mongoURL, function() {
+                        console.log("inside mongo connection function of API deleteUserBot");
+                        var collection_botmetadata = mongo.collection("UserBotMetadata");
+                        var json_response;
 
-    collection_botmetadata.deleteOne({
-      _id: {
-        $eq: ObjectId(bId)
-      }
-    }, function(err, response) {
-      if (response) {
-        json_response = {
-          "statusCode": 200
-        };
-        console.log(json_response);
-        res.send(json_response);
-      }
+                        collection_botmetadata.deleteOne({
+                            _id: {
+                                $eq: ObjectId(bId)
+                            }
+                        }, function(err, response) {
+                            if (response) {
+                                json_response = {
+                                    "statusCode": 200
+                                };
+                                console.log(json_response);
+                                res.send(json_response);
+                            }
+                        });
+                    });
+                } else {
+                    json_response = {
+                        "statusCode": 200
+                    };
+                    console.log(json_response);
+                    res.send(json_response);
+                }
+              });
+            } else {
+                mongo.connect(mongoURL, function() {
+                    console.log("inside mongo connection function of API deleteUserBot");
+                    var collection_botmetadata = mongo.collection("UserBotMetadata");
+                    var json_response;
+
+                    collection_botmetadata.deleteOne({
+                        _id: {
+                            $eq: ObjectId(bId)
+                        }
+                    }, function(err, response) {
+                        if (response) {
+                            json_response = {
+                                "statusCode": 200
+                            };
+                            console.log(json_response);
+                            res.send(json_response);
+                        }
+                    });
+                });
+            }
+        }
     });
-  });
 });
 
 

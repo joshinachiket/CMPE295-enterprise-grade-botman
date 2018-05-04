@@ -48,19 +48,19 @@ const createBot = (token, botName, callback) => {
             if(res.app_id) {
                 callback({
                     status: "SUCCESS",
-                    body: body
+                    body: res
                 });
             } else {
                 callback({
                     status: "FAILURE",
-                    reason: body
+                    reason: res
                 });
             }
         } else {
             console.log(JSON.parse(response));
             callback({
                 status: "FAILURE",
-                reason: response
+                reason: JSON.parse(response)
             });
         }
     });
@@ -296,6 +296,63 @@ const deleteIntent = (token, intent, callback) => {
     });
 };
 
+/*Function to delete existing intent
+*Sample response:
+* {
+    "deleted": "byegreeting"
+  }
+* */
+const deleteBot = (token, appId, callback) => {
+    if(!token || /^\s*$/.test(token)) {
+        return {
+            status: "FAILURE",
+            reason: "Invalid/No token provided"
+        }
+    }
+
+    if(!appId || /^\s*$/.test(appId)) {
+        callback({
+            status: "FAILURE",
+            reason: "Invalid/No intent name provided"
+        });
+    }
+    console.log("Deleting bot " + appId);
+    request.delete({
+        "headers": { "content-type": "application/json" ,
+            "Authorization": "Bearer " + token},
+        "url": "https://api.wit.ai/apps/" + appId
+    }, (error, response, body) => {
+        if(error) {
+            console.log(JSON.stringify(error));
+            callback({
+                status: "FAILURE",
+                reason: error
+            });
+        }
+
+        if(body) {
+            const res = JSON.parse(body);
+            console.log(res);
+            if(res.success) {
+                callback({
+                    status: "SUCCESS",
+                });
+            } else {
+                callback({
+                    status: "FAILURE",
+                    reason: "Failed to delete bot"
+                });
+            }
+        } else {
+            console.log(JSON.parse(response));
+            callback({
+                status: "FAILURE",
+                reason: response
+            });
+        }
+    });
+};
+
 /*
 createBot('VEA6CN4I6UTPMSCZERZYGMFA4NCZBFWV', 'wit_bot', (result) => {
     console.log(JSON.stringify(result));
@@ -312,4 +369,17 @@ queryBot('VEA6CN4I6UTPMSCZERZYGMFA4NCZBFWV', 'Hi', (result) => {
 deleteIntent('VEA6CN4I6UTPMSCZERZYGMFA4NCZBFWV', 'byegreeting', (result) => {
     console.log(JSON.stringify(result));
 });
+
+
+deleteBot('VEA6CN4I6UTPMSCZERZYGMFA4NCZBFWV', '5aeba034-55e9-4d10-b0ff-32bb2d01d931', (result) => {
+    console.log(JSON.stringify(result));
+});
 */
+
+module.exports = {
+    createBot: createBot,
+    createOrUpdateIntent: createOrUpdateIntent,
+    queryBot: queryBot,
+    deleteIntent: deleteIntent,
+    deleteBot: deleteBot
+}
