@@ -14,6 +14,7 @@ var GitHubStrategy = require('passport-github2').Strategy;
 // initialize ROUTES to be used
 var login = require('./routes/login');
 var user = require('./routes/user');
+var bot = require('./routes/bot');
 
 // initialize express session to be maintained
 
@@ -58,6 +59,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', login);
 app.use('/user', user);
 
+app.use('/bot', bot);
 // GET APIS
 // app.get('/getUserBots', user.getUserBots);
 
