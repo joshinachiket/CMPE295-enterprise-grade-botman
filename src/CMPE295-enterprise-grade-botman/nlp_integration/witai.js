@@ -114,6 +114,8 @@ const createOrUpdateIntent = (token, intentName, queries, callback) => {
         });
     }
 
+    console.log("Updating/Creating intent " + intentName + " queries " + queries)
+
     var req = [];
 
     for(var i=0; i < queries.length; i++) {

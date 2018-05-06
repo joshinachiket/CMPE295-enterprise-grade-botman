@@ -7,7 +7,7 @@ var http = require('http');
 // initialize App
 var app = express();
 
-// include Passportjs dependancies
+// include Passportjs dependencies
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 
