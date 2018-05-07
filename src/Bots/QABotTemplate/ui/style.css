@@ -1,0 +1,90 @@
+/* CSS Document */
+body {
+    font:12px arial;
+    color: #222;
+    text-align:center;
+    margin: 0px;
+}
+
+form, p, span {
+    margin:0;
+    padding:0; }
+
+.input-text {
+    font:12px arial;
+    width: 300px;
+}
+
+.input-button {
+    font:12px arial;
+}
+
+a {
+    color:#0000FF;
+    text-decoration:none; }
+
+a:hover { text-decoration:underline; }
+
+#wrapper, #loginform {
+    padding-bottom:25px;
+    background:#EBF4FB;
+    width:404px;
+    height:100%;
+    border:1px solid #ACD8F0; }
+
+#loginform {
+    padding-top:18px;
+}
+
+#loginform p { margin: 5px; }
+
+.chatbox {
+    text-align:left;
+    margin:25px auto;
+
+    padding:10px;
+    background:#fff;
+    height:270px;
+    width:330px;
+    border:1px solid #ACD8F0;
+}
+.chatbox ul {
+    height: 260px;
+    width: 330px;
+    overflow-y:auto;
+    margin: 0px;
+    padding: 5px;
+}
+
+.chatbox ul li {
+    padding: 10px 10px 10px 10px;
+}
+
+.userstyle {
+    border: 1px solid green;
+    background-color: green;
+    border-radius: 20px;
+    text-align: right;
+}
+
+.botstyle {
+    border: 1px solid deepskyblue;
+    background-color: deepskyblue;
+    border-radius: 20px;
+    text-align: left;
+}
+
+#usermsg {
+    width:295px;
+    border:1px solid #ACD8F0; }
+
+#submit { width: 60px; }
+
+.error { color: #ff0000; }
+
+
+.welcome { float:left; }
+
+.logout { float:right; }
+
+.msgln { margin:0 0 2px 0; }

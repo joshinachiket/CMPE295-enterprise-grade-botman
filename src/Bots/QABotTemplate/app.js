@@ -1,78 +1,80 @@
-var Botkit 			= require('botkit');
 var express 		= require('express');
 var bodyParser 		= require('body-parser');
 var fs              = require('fs');
-
+var path 			= require('path');
+var request         = require("request");
 
 var app 			= express();
 var port 			= process.env.PORT || 1732;
 
 //body parser middleware
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended : true
+    extended: false
 }));
+
+app.use( express.static(path.join(__dirname, 'ui')));
 
 // Test the app
 app.get('/', function(req, res) {
 	res.status(200).send('We welcome you on port number: ' + port);
 });
 
+function keysToLowerCase(obj) {
+    if (!typeof(obj) === "object" || typeof(obj) === "string" || typeof(obj) === "number" || typeof(obj) === "boolean") {
+        return obj;
+    }
+    var keys = Object.keys(obj);
+    var n = keys.length;
+    var lowKey;
+    while (n--) {
+        var key = keys[n];
+        if (key === (lowKey = key.toLowerCase()))
+            continue;
+        obj[lowKey] = keysToLowerCase(obj[key]);
+        delete obj[key];
+    }
+    return (obj);
+}
+
+//read config file
+var jsonData = JSON.parse(fs.readFileSync("bot_config.json"));
+var botName = jsonData.botname;
+var userName = jsonData.username;
+var responseMap = keysToLowerCase(jsonData.responseConfig);
+
+
+function sendRequestToFramework(message) {
+
+}
+
+
+//generate ui for the bot
+app.get('/bot',function (req,res) {
+    res.sendFile(path.join(__dirname+'/ui/chatWindow.html'));
+});
+
+//give back response
+app.post('/bot',function (req,res) {
+    json_response = {
+        statusCode: 200,
+        message: ""
+    };
+
+    if (responseMap.hasOwnProperty(req.body.message.toLowerCase())) {
+        json_response["message"] = responseMap[req.body.message.toLowerCase()];
+    } else {
+        if (responseMap.hasOwnProperty('default')) {
+            json_response["message"] = responseMap.default;
+        } else {
+            json_response["message"] = '....?';
+        }
+        //Send unmapped question to Framework
+        sendRequestToFramework(req.body.message.toLowerCase());
+    }
+    res.send(json_response);
+});
+
 app.listen(port, function() {
     console.log('Listening on port ' + port);
-});
-
-//file operation.
-filePath='config.json';
-fileContents = ' { "token":"xoxb-345502549281-233MkoKg2CAWHRGYNLlme8Av",' +
-	           '  "responseConfig" : {"hi":"hello","bye":"bye","defalut":"Sorry! I could not understand u."}}';
-/*fs.writeFile(filePath,fileContents,function(err) {
-	if (err) throw err;
-});*/
-
-slackToken = "";
-responseMap = {};
-
-fs.readFile(filePath, function(err, buf) {
-    fileContents = JSON.parse(buf.toString());
-
-    slackToken = fileContents.token;
-
-    for (var key in fileContents.responseConfig) {
-        if (fileContents.responseConfig.hasOwnProperty(key)) {
-            //console.log(key + " -> " + fileContents.responseConfig[key]);
-			responseMap[key] = fileContents.responseConfig[key];
-        }
-    }
-});
-
-
-var controller = Botkit.slackbot({
-	debug : false
-});
-
-controller.spawn({
-	token :  'xoxb-352330487684-IX5Ckm52rgRLEvF5cAVpNoBv'//'xoxb-345502549281-233MkoKg2CAWHRGYNLlme8Av'
-}).startRTM();
-
-controller.hears('.*',[ 'direct_message', 'direct_mention', 'mention' ],
-    function(bot, message) {
-        console.log(message.match[0].toUpperCase());
-        console.log(responseMap[message.match[0]]);
-        if (responseMap[message.match[0]]===undefined) {
-            var reply_with_attachments = {
-                'username' : 'weatherbot',
-                'text' : "Sorry, I didn't understand that :(",
-                'mrkdwn': true,
-                'icon_url' : 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTvJBPdSX9-5_Zb9lv9zFYqnQWICB4aGn3M9R9koRM-4uoKZYQq'
-            };
-            bot.reply(message, reply_with_attachments);
-        } else {
-            var reply_with_attachments = {
-                'username' : 'weatherbot',
-                'text' : responseMap[message.match[0]],
-                'mrkdwn': true,
-                'icon_url' : 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTvJBPdSX9-5_Zb9lv9zFYqnQWICB4aGn3M9R9koRM-4uoKZYQq'
-            };
-            bot.reply(message, reply_with_attachments);
-        }
 });

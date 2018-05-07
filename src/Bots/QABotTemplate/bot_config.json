@@ -1,0 +1,9 @@
+ {
+   "username":"Abhishek",
+   "botname":"Pizza bot",
+   "token":"xoxb-345502549281-233MkoKg2CAWHRGYNLlme8Av",
+   "responseConfig" :
+    { "hi":"hello",
+      "bye":"bye",
+      "default":"Sorry! I could not understand u." }
+ }
