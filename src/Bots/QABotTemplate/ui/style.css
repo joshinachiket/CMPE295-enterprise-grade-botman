@@ -63,14 +63,24 @@ a:hover { text-decoration:underline; }
 .userstyle {
     border: 1px solid green;
     background-color: green;
-    border-radius: 20px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: right;
+}
+
+.left-align {
+    text-align: left;
+}
+
+.right-align {
     text-align: right;
 }
 
 .botstyle {
     border: 1px solid deepskyblue;
     background-color: deepskyblue;
-    border-radius: 20px;
+    border-radius: 5px;
+    padding: 5px 10px;
     text-align: left;
 }
 

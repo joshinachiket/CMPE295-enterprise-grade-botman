@@ -17,12 +17,12 @@
 <div id="wrapper" ng-app="MyApp" ng-controller="MyController">
     <div class="chatbox">
         <ul id="bottom">
-            <li ng-repeat="line in chat track by $index" >
-                <p ng-class="">{{line.message}}</p>
+            <li ng-repeat="line in chat track by $index" ng-class="{'left-align' : line.type, 'right-align' : !line.type}" >
+                <span ng-class="{'botstyle' : line.type, 'userstyle' : !line.type}">{{line.message}}</span>
             </li>
         </ul>
     </div>
-    <input name="usermsg" class="input-text" type="text" ng-model="userText" size="63" />
+    <input name="usermsg" class="input-text" type="text" ng-model="userText" size="63" autocomplete="off"/>
     <input name="submitmsg" class="input-button" type="submit" value="Send" scroll-bottom="bottom" ng-click="addDiv()"/>
 </div>
 </body>

@@ -46,6 +46,25 @@ var responseMap = keysToLowerCase(jsonData.responseConfig);
 
 function sendRequestToFramework(message) {
 
+    var options ={
+        method: 'PUT',
+        uri: 'http://localhost:3000/bot/'+botName+"/unmapped",
+        json: {
+            'userName' : userName,
+            'unmappedQue' : message
+        }
+    }
+    console.log(options);
+    request(
+        options,
+        function (error, reqponse, body) {
+        if (error) {
+            console.log(error);
+            console.log('Error sending the message to Framework');
+        } else {
+            console.log('Successfully sent message to Server');
+        }
+    });
 }
 
 
