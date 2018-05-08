@@ -16,6 +16,7 @@
 - [System Architecture](#system-architecture)
 - [Project Deliverables](#project-deliverables)
 - [UML Diagrams](#uml-diagrams)
+- [License](#license)
 - [Team Members](#team-members)
 
 ## Component Design
