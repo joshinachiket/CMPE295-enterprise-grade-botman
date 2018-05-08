@@ -53,9 +53,9 @@
 
 ## Project Deliverables
 
-- [Workbook 1] (docs/Workbook%201%20-%20Group%20submission%20Project%20Workbook)
-- [Workbook 2] (docs/Workbook%202%20-%20Project%20Design%20and%20Early%20Implementation)
-- [Functional Spec Documents] (docs/Functional%20Spec%20Documents)
+- [Workbook 1](docs/Workbook%201%20-%20Group%20submission%20Project%20Workbook)
+- [Workbook 2](docs/Workbook%202%20-%20Project%20Design%20and%20Early%20Implementation)
+- [Functional Spec Documents](docs/Functional%20Spec%20Documents)
 
 ## UML Diagrams 
 
@@ -70,7 +70,10 @@
   ### Sequence Diagram - QA Type Bot
 
   <img src="docs/Diagrams/UML%20Diagrams/Sequence%20Diagram%20-%20QA%20Type%20Bot.jpg" width="500">
-  
+
+## License
+
+Botman is released under the [MIT License](https://github.com/joshinachiket/CMPE295-enterprise-grade-botman/blob/master/LICENSE.md)
 
 ## Team Members
 
