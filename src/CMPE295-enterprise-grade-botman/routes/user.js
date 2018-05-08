@@ -4,6 +4,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectID;
 const witai = require('./../nlp_integration/witai');
+var fs = require('fs');
 
 
 var mongo = require('./../database/mongodb');
@@ -570,6 +571,89 @@ router.put('/bot/:botName/intent/:intent/:response', function(req, res, next) {
                 }
                 res.send(json_response);
             }
+        });
+    });
+});
+
+
+function createBotConfigFile(path, data, cb) {
+    var filePath = path+'/bot_config.json';
+    var config = {};
+    config['username'] = data.botOwner;
+    config['botname']= data.botName;
+    config['server_ip'] = 'http://localhost:3000';
+    config['token'] = data.nlpToken;
+    config['responseConfig'] = {};
+    if (data.botType === 'simple_bot') {
+        data.mapping.forEach(function(map) {
+            config['responseConfig'][map.userSay] = map.botRespond;
+        });
+        fs.writeFile(filePath,JSON.stringify(config),'utf8',function(err) {
+            if (err) {
+                console.log(err);
+                cb(false);
+            }
+            cb(true);
+        });
+    } else {
+        console.log(data.mapping);
+        data.mapping.forEach(function(map) {
+            console.log(map);
+            config['responseConfig'][map.intent] = map.response;
+        });
+        console.log(config);
+        fs.writeFile(filePath,JSON.stringify(config),'utf8',function(err) {
+            if (err) {
+                console.log(err);
+                cb(false);
+            }
+            cb(true);
+        });
+
+    }
+}
+
+/**
+ * Upload bot to server
+ */
+router.post('/bot/:botName/upload',function(req,res,next) {
+    var payload = {
+        "userName" : req.session.username,
+        "botName": req.params.botName
+    }
+    console.log("Upload :"+ payload.botName+" for User: "+payload.userName);
+    mongo.connect(mongoURL, function() {
+        json_response = {
+            "statusCode": 200
+        }
+        var collection_botmetadata = mongo.collection("UserBotMetadata");
+        var query = {
+            "botOwner": payload.userName,
+            "botName": payload.botName
+        }
+        collection_botmetadata.findOne(query, function (err, data) {
+            if (err) {
+                json_response.statusCode = 401;
+                res.send(json_response);
+                return;
+            }
+            var path = './bot_template/';
+            if (data.botType==='simple_bot') {
+                path = path + 'QABotTemplate';
+            } else {
+                path = path + 'NLPBotTemplate';
+            }
+            createBotConfigFile(path,data,function(success) {
+                if(!success) {
+                    console.log("Failed to create file bot_config.json for "+ payload.userName);
+                    json_response.statusCode = 401;
+                    res.send(json_response);
+                    return;
+                }
+                //Run the Upload script get status and give it to the frontend.
+
+                res.send(json_response);
+            });
         });
     });
 });

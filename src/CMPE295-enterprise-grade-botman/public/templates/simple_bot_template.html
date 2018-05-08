@@ -42,9 +42,10 @@
           <li ng-repeat="ele in bot.unmapped ">{{ele}}</li>
         </ul>
       </div>
-      <div class="button-container ">
-        <input type="button " value="Update " class="button-style " ng-click="showAddResponseMappingForBot=true " />
-        <input type="button " value="Back " class="button-style " ng-click="goBack()" />
+      <div class="button-container">
+        <input type="button " value="Update" class="button-style mod-width" ng-click="showAddResponseMappingForBot=true " />
+        <input type="button " value="Upload" class="button-style mod-width upload-style " ng-click="showUploadBotDialogue=true" />
+        <input type="button " value="Back" class="button-style mod-width" ng-click="goBack()" />
       </div>
     </div>
     <br class="clear " />
@@ -69,6 +70,29 @@
         </div>
         <div class="error-snack-bar" ng-show="updateMappingStatus.error">
           <p>Failed to update. Contact admin.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Show Upload bot confirmation Dialogue-->
+    <div class="fade-background-container" ng-show="showUploadBotDialogue">
+      <div class="dialogue-container">
+        <div class="dialogue-header">
+          <h2>Go Live</h2>
+        </div>
+        <div class="dialogue-body">
+          <div style="text-align:center;padding: 20px 0px;">
+            Confirm Upload bot to Cloud ?
+          </div>
+        </div>
+        <div class="dialogue-footer ">
+          <input type="button " value="Confirm" ng-click="uploadBot()" class="button-style " />
+          <input type="button " value="Cancel" ng-click="showUploadBotDialogue=false" class="button-style " />
+        </div>
+        <div class="success-snack-bar" ng-show="uploadBotStatus.success">
+          <p>Successfully Uploaded!</p>
+        </div>
+        <div class="error-snack-bar" ng-show="uploadBotStatus.error">
+          <p>Failed to Uploaded. Contact admin.</p>
         </div>
       </div>
     </div>

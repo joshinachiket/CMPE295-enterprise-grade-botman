@@ -141,12 +141,29 @@ section {
     margin: 0px 30px;
     font-weight: bold;
     text-align: center;
-    cursor:pointer;
+    cursor:context-menu;
+}
+
+.mod-width {
+    width:100px;
+    padding:10px 10px 10px 10px;
+    margin: 0px 10px;
+}
+
+.upload-style {
+    color: #088A29;
+    border:3px solid #088A29;
 }
 
 .button-style:hover {
     background-color: black;
     border-color: black;
+    color:white;
+}
+
+.upload-style:hover {
+    background-color: #088A29;
+    border-color: #088A29;
     color:white;
 }
 
