@@ -1,0 +1,1 @@
+heroku create %1
