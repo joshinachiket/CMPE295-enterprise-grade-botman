@@ -41,7 +41,6 @@ a:hover { text-decoration:underline; }
 .chatbox {
     text-align:left;
     margin:25px auto;
-
     padding:10px;
     background:#fff;
     height:270px;
@@ -61,8 +60,8 @@ a:hover { text-decoration:underline; }
 }
 
 .userstyle {
-    border: 1px solid green;
-    background-color: green;
+    border: 1px solid #BBBCBC;
+    background-color: #BBBCBC;
     border-radius: 5px;
     padding: 5px 10px;
     text-align: right;
@@ -77,8 +76,8 @@ a:hover { text-decoration:underline; }
 }
 
 .botstyle {
-    border: 1px solid deepskyblue;
-    background-color: deepskyblue;
+    border: 1px solid #0097A9;
+    background-color: #0097A9;
     border-radius: 5px;
     padding: 5px 10px;
     text-align: left;

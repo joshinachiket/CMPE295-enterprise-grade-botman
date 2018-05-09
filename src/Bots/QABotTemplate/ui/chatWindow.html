@@ -18,7 +18,7 @@
     <div class="chatbox">
         <ul id="bottom">
             <li ng-repeat="line in chat track by $index" ng-class="{'left-align' : line.type, 'right-align' : !line.type}" >
-                <span ng-class="{'botstyle' : line.type, 'userstyle' : !line.type}">{{line.message}}</span>
+                <span ng-class="{'botstyle' : line.type, 'userstyle' : !line.type}" style="word-break: break-all; line-height: 2;">{{line.message}}</span>
             </li>
         </ul>
     </div>
