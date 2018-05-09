@@ -15,7 +15,7 @@
 - [Component Design](#component-design)
 - [System Architecture](#system-architecture)
 - [Project Deliverables](#project-deliverables)
-- [UML Diagrams](#uml-diagrams)
+- [Project Poster](#project-poster)
 - [License](#license)
 - [Team Members](#team-members)
 
@@ -58,19 +58,8 @@
 - [Workbook 2](docs/Workbook%202%20-%20Project%20Design%20and%20Early%20Implementation)
 - [Functional Spec Documents](docs/Functional%20Spec%20Documents)
 
-## UML Diagrams 
-
-  ### Use-case Diagram
-
-  <img src="docs/Diagrams/UML%20Diagrams/Usecase.png" width="500">
-
-  ### Sequence Diagram - NLP Managed Bot
-
-  <img src="docs/Diagrams/UML%20Diagrams/Sequence%20Diagram%20-%20NLP%20Managed%20Bot.jpg" width="500">
-
-  ### Sequence Diagram - QA Type Bot
-
-  <img src="docs/Diagrams/UML%20Diagrams/Sequence%20Diagram%20-%20QA%20Type%20Bot.jpg" width="500">
+## Project Poster
+![](docs/Diagrams/Project%20Poster.jpg)
 
 ## License
 
