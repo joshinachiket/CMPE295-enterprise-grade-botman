@@ -12,6 +12,7 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
   $scope.showDialogueCreateBot = false;
 
 
+
   /*snack bar object*/
   $scope.deleteRequestStatus = {
     success: false,
@@ -26,9 +27,11 @@ app.controller('BotInfo', function($scope, $http, $timeout) {
 
   $scope.loadData = function() {
     console.log("ON LOAD FUNCTION CALLED");
+
     $http.get('/user/getUserBotList', {}).then(function(response) {
       if (response.status == 200) {
         console.log("successfully brought data from backend");
+        console.log(response.status);
         $scope.botList = response.data.bots;
       } else {
         console.log("something went wrong");

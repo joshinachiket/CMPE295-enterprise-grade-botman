@@ -149,6 +149,7 @@ router.get('/getUserBotList', function(req, res) {
             json_response = {
                 "bots": data,
                 "statusCode": 200
+
             };
             // console.log(json_response);
             res.send(json_response);

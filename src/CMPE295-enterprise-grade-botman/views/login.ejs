@@ -11,39 +11,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
     <script type="text/javascript" src = "/scripts/index.js"> </script>
+
+    <link rel="stylesheet" href="/bs/bs.min.css" >
+    <link rel="stylesheet" type="text/css" href="/stylesheets/handy.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
 
 </head>
 <body ng-app="app" ng-controller="app" >
 <header>
     <div class="header-container">
         <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
-        <span class="header_name">Botman</span>
-        <div class="button" id="login-button-header">Login</div>
+        <span class="header_name">BotMan</span>
+        <div class="button btn  btn-color bg-green btn-lg" id="login-button-header">🔑 Login</div>
     </div>
 </header>
+<section class="">
+    <div class="hero-header">
+        <div class="container">
+            <div class="row m-h-100">
+                <div class="col-md-7 my-auto clr-white">
+                    <div id="info-container" class="info-container">
+                        <h1 class="fw-300 display-3">An Enterprise Grade Framework for Implementing Dash Bots</h1>
+                        <h2 class="fw-300 opacity-75">Let's make chatting fun</h2>
+                        <div class="button-start m-t-20 btn  btn-color bg-green btn-lg" id="login-button-section">Get started </div>
+                    </div>
+                    <div id="login-container" class="login-container ">
+                        <img class = "cancel" src="/images/assets/cancel.PNG" alt="cancel" id="cancel-button"/>
+                        <div class="header-strip">
+                            <img class= "git-logo" src="https://image.flaticon.com/icons/svg/25/25231.svg"  alt="git" />
+
+                        </div>
+                        <div class="button-login  m-t-20 btn  btn-color bg-green btn-lg " onclick="window.location.href='/auth/github'" >🔑 Continue with Git</div>
+                    </div>
+                </div>
+                <div class="col-md-5 my-auto">
+                    <img src="/images/character-desk@2x.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section1">
-    <div id="info-container" class="info-container">
-        <p>An Enterprise grade framework for <br/>Implementing Dash Bots</p>
-        <p>"Lets make chatting fun......."</p>
-        <div class="button-start" id="login-button-section">Get started</div>
-    </div>
-    <div id="login-container" class="login-container">
-        <img class = "cancel" src="/images/assets/cancel.PNG" alt="cancel" id="cancel-button"/>
-        <img class= "git" src="/images/assets/github.PNG" alt="git" />
-        <div class="button-login" onclick="window.location.href='/auth/github'" >Login</div>
-    </div>
+
 </section>
 <section class="section2">
 </section>
 <footer>
     <div>
-        <ul>
-            <li><a href="">About us</a></li>
-            <li><a href="">Features</a></li>
-        </ul>
-        <p>Botman © 2018. All rights reserved.</p>
+        <p>Botman &copy; 2018. All rights reserved.</p>
     </div>
 </footer>
 </body>
