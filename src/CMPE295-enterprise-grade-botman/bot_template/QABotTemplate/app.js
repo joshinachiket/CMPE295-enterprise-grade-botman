@@ -46,7 +46,7 @@ var responseMap = keysToLowerCase(jsonData.responseConfig);
 
 function sendRequestToFramework(message) {
 
-    var options ={
+    var options = {
         method: 'PUT',
         uri: 'http://localhost:3000/bot/'+botName+"/unmapped",
         json: {
@@ -86,7 +86,7 @@ app.post('/bot',function (req,res) {
         if (responseMap.hasOwnProperty('default')) {
             json_response["message"] = responseMap.default;
         } else {
-            json_response["message"] = '....?';
+            json_response["message"] = 'Sorry, I didn\'t get that.';
         }
         //Send unmapped question to Framework
         sendRequestToFramework(req.body.message.toLowerCase());
