@@ -14,15 +14,25 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
   <script type="text/javascript" src="/angular/nlpeditbot.js">
   </script>
-
+  <link rel="stylesheet" href="/bs/bs.min.css" >
+  <link rel="stylesheet" type="text/css" href="/stylesheets/handy.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
 </head>
 <body>
-<header class="header-mod">
-  <div class="header-container">
-    <img class="logo_container" src="/images/assets/bot_logo.png" alt="botman logo" />
-    <span class="header_name">Botman</span>
+<section class="bg-white shadow--d p-all-10 ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img  src="/images/assets/bot_logo.png" alt="botman logo" width="50"/>
+        <span class="d-inline-block"><b>Botman</b></span>
+
+      </div>
+      <div class="col-md-6 my-auto text-right">
+
+      </div>
+    </div>
   </div>
-</header>
+</section>
 <section class="section1" ng-app="NlpBotTemplate" ng-controller="BotEdit" ng-init="loadData()">
   <div class="section-mapping">
     <div class="mapping">
@@ -57,9 +67,9 @@
       </ul>
     </div>
     <div class="button-container">
-      <input type="button" value="Add Intent" class="button-style mod-width" ng-click="showAddNewIntentDialogue=true"/>
-      <input type="button" value="Upload" class="button-style mod-width upload-style" ng-click="showUploadBotDialogue=true" />
-      <input type="button" value="Back" class="button-style mod-width" ng-click="goBack()"/>
+      <input type="button" value="Add Intent" class="btn btn-color bg-green" ng-click="showAddNewIntentDialogue=true"/>
+      <input type="button" value="Upload" class="btn btn-color bg-blue upload-style" ng-click="showUploadBotDialogue=true" />
+      <input type="button" value="Back" class="btn btn-color bg-orange" ng-click="goBack()"/>
     </div>
   </div>
   <br class="clear"/>
@@ -77,8 +87,8 @@
           </div>
       </div>
       <div class="dialogue-footer">
-        <input type="button" value="Add" ng-click="addIntent()" class="button-style"/>
-        <input type="button" value="Cancel" ng-click="showAddNewIntentDialogue=false" class="button-style"/>
+        <input type="button" value="Add" ng-click="addIntent()" class="btn btn-color bg-green"/>
+        <input type="button" value="Cancel" ng-click="showAddNewIntentDialogue=false" class="btn btn-color bg-licorice "/>
       </div>
       <div class="success-snack-bar" ng-show="updateMappingAddIntentStatus.success">
         <p>Successfully Updated!</p>
@@ -169,8 +179,8 @@
         </div>
       </div>
       <div class="dialogue-footer">
-        <input type="button " value="Confirm" ng-click="uploadBot()" class="button-style " />
-        <input type="button " value="Cancel" ng-click="showUploadBotDialogue=false" class="button-style " />
+        <input type="button" value="Confirm" ng-click="uploadBot()" class="button-style " />
+        <input type="button" value="Cancel" ng-click="showUploadBotDialogue=false" class="button-style " />
       </div>
       <div class="success-snack-bar" ng-show="uploadBotStatus.success">
         <p>Successfully Uploaded!</p>

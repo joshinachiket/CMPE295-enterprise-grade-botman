@@ -1,5 +1,5 @@
 footer {
-	background-color: #585858;
+	background-color: #263238;
 	color: white;
 	padding: 20px 0px;
 }
@@ -10,8 +10,11 @@ footer ul {
 }
 
 footer p {
-	margin:0px 40px;
-	padding-top:10px;
+	margin: 0px 40px;
+	padding-top: 10px;
+	letter-spacing: 1.5px;
+	font-size: 16px;
+	font-weight: 300;
 }
 
 footer ul li {
@@ -20,10 +23,10 @@ footer ul li {
 }
 
 footer ul li:not(:first-child):before {
-    content: " | ";
+	content: " | ";
 }
 
-	
+
 footer ul li a {
 	text-decoration: none;
 	color: white;
