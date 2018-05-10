@@ -83,9 +83,10 @@
           <div style="text-align:center;padding: 20px 0px;">
             Confirm Upload bot to Cloud ?
           </div>
+          <code>{{accessUrl}}</code>
         </div>
         <div class="dialogue-footer ">
-          <input type="button " value="Confirm" ng-click="uploadBot()" class="button-style " />
+          <input type="button " value="Confirm" ng-click="uploadBot()" class="button-style " ng-disabled="disableButton" />
           <input type="button " value="Cancel" ng-click="showUploadBotDialogue=false" class="button-style " />
         </div>
         <div class="success-snack-bar" ng-show="uploadBotStatus.success">

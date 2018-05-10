@@ -9,6 +9,8 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
   $scope.showUploadBotDialogue = false;
   $scope.botSayVar = "";
   $scope.userSayVar = "";
+  $scope.disableButton = false;
+  $scope.accessUrl="";
 
   /*snack bar object*/
   $scope.updateMappingStatus = {
@@ -113,7 +115,8 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
     window.history.back();
   }
 
-  $scope.uploadBot= function() {
+    $scope.uploadBot= function() {
+        $scope.disableButton = true;
         var botName = localStorage.getItem("botName");
         console.log('Upload Bot.');
         $http({
@@ -123,6 +126,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
             console.log(response);
             if (response.data.statusCode === 200) {
                 console.log("botmapping successfully uploaded.");
+                $scope.accessUrl = '&ltiframe src="' + response.data.deployed_path + ' height="390" width="407" style="position:fixed;bottom:0;right:0;z-index:10;"&gt&lt/iframe&gt';
                 $scope.uploadBotStatus.success = true;
             } else {
                 console.log("Error uploading bot.");
@@ -132,15 +136,18 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
                 $scope.showUploadBotDialogue = false;
                 $scope.uploadBotStatus.error = false;
                 $scope.uploadBotStatus.success = false;
-            }, 3000);
+                $scope.disableButton = false;
+                $scope.accessUrl="";
+            }, 5000);
         }, function errorCallback(response) {
             $scope.uploadBotStatus.error = true;
             $timeout(function() {
                 $scope.showUploadBotDialogue = false;
                 $scope.uploadBotStatus.error = false;
                 $scope.uploadBotStatus.success = false;
+                $scope.disableButton = false;
+                $scope.accessUrl="";
             }, 3000);
         });
-
-   }
+    }
 });
