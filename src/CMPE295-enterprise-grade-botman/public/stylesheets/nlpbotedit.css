@@ -309,3 +309,8 @@ section {
     font-size: 12px;
     color: white;
 }
+
+.code-url {
+    margin: 0px 20px;
+    text-align: justify;
+}

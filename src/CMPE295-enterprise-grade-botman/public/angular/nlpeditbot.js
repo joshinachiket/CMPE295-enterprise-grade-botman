@@ -257,6 +257,14 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
         window.history.back();
     }
 
+    $scope.cancelUpload = function () {
+        $scope.showUploadBotDialogue=false;
+        $scope.uploadBotStatus.error = false;
+        $scope.uploadBotStatus.success = false;
+        $scope.disableButton = false;
+        $scope.accessUrl="";
+    }
+
     $scope.uploadBot= function() {
         $scope.disableButton = true;
         var botName = localStorage.getItem("botName");
@@ -268,19 +276,12 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
             console.log(response);
             if (response.data.statusCode === 200) {
                 console.log("botmapping successfully uploaded.");
-                $scope.accessUrl = '&ltiframe src="' + response.data.deployed_path + ' height="390" width="407" style="position:fixed;bottom:0;right:0;z-index:10;"&gt&lt/iframe&gt';
+                $scope.accessUrl = '<iframe src="' + response.data.deployed_path + ' height="390" width="407" style="position:fixed;bottom:0;right:0;z-index:10;"></iframe>';
                 $scope.uploadBotStatus.success = true;
             } else {
                 console.log("Error uploading bot.");
                 $scope.uploadBotStatus.error = true;
             }
-            $timeout(function() {
-                $scope.showUploadBotDialogue = false;
-                $scope.uploadBotStatus.error = false;
-                $scope.uploadBotStatus.success = false;
-                $scope.disableButton = false;
-                $scope.accessUrl="";
-            }, 5000);
         }, function errorCallback(response) {
             $scope.uploadBotStatus.error = true;
             $timeout(function() {

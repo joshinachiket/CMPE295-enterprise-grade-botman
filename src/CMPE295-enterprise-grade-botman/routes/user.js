@@ -91,10 +91,21 @@ router.post('/updateSimpleUserBotMapping', function(req, res, next) {
     }, function(err, response) {
       if (response) {
         console.log("update successfull, botinfo updated");
-        json_response = {
-          "statusCode": 200
-        };
-        res.send(json_response);
+        collection_botmetadata.update(
+            {
+                botOwner: botUpdatePayload.username,
+                botName: botUpdatePayload.bot_name,
+            },
+            {
+                "$pull": {
+                    unmapped : { $in : [ botUpdatePayload.userQuery ] }
+                }
+            }, function (err, response) {
+                json_response = {
+                  "statusCode": 200
+                };
+                res.send(json_response);
+          });
       } else {
         console.log("update failure, please check");
         json_response = {
@@ -383,6 +394,16 @@ router.post('/updateNLPUserBotMapping/addIntent', function(req, res, next) {
               }
 
             }, function(err, response) {
+                collection_botmetadata.update(
+                    {
+                        botOwner: botAddIntentPayload.username,
+                        botName: botAddIntentPayload.bot_name,
+                    },
+                    {
+                        "$pull": {
+                            unmapped : { $in : [ botAddIntentPayload.entity ] }
+                        }
+                    });
               if (response) {
                 console.log("indent added successful, bot info updated");
                 res.send({
@@ -487,6 +508,9 @@ router.post('/bot/:botName/intent/:intent/:entity', function(req, res, next) {
     }, function(err, botMetadata) {
       console.log(botMetadata);
       console.log(botMetadata.mapping);
+      //Remove Entity from mapping if exist.
+      let unMapped = botMetadata.unmapped;
+      unMapped.splice(unMapped.indexOf(req.params.entity),1);
       let thisMapping = botMetadata.mapping;
       for (var i = 0; i < thisMapping.length; i++) {
         if (thisMapping[i].intent === req.params.intent) {
@@ -508,7 +532,8 @@ router.post('/bot/:botName/intent/:intent/:entity', function(req, res, next) {
             botName: req.params.botName
           }, {
             "$set": {
-              "mapping": thisMapping
+              "mapping": thisMapping,
+              "unmapped" : unMapped
             }
 
           }, function(err, response) {
@@ -663,7 +688,7 @@ router.post('/bot/:botName/upload', function(req, res, next) {
         }
         //Run the Upload script get status and give it to the frontend.
         // upload to heroku here nachiket
-        var heroku_dir_name = payload.userName + '-' + payload.botName;
+        var heroku_dir_name = (payload.userName + '-' + payload.botName).toLowerCase();
         console.log(heroku_dir_name);
         var batch_path = __dirname + '/../batch/';
 
