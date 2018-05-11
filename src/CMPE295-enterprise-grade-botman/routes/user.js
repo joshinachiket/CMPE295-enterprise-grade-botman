@@ -1,6 +1,5 @@
 // include the express router
 var express = require('express');
-var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectID;
@@ -8,7 +7,7 @@ const witai = require('./../nlp_integration/witai');
 var fs = require('fs');
 var child_process = require('child_process');
 var cmd = require('node-cmd');
-var ip = require("ip");
+
 
 
 var mongo = require('./../database/mongodb');
