@@ -14,6 +14,11 @@ section {
 
 .section2 {
 	background-color:black;
+	text-align: center;
+}
+
+.section2 iframe {
+	margin: 100px auto;
 }
 
 .info-container{
