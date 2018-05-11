@@ -1,5 +1,6 @@
 // include the express router
 var express = require('express');
+var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectID;
@@ -7,6 +8,7 @@ const witai = require('./../nlp_integration/witai');
 var fs = require('fs');
 var child_process = require('child_process');
 var cmd = require('node-cmd');
+var ip = require("ip");
 
 
 var mongo = require('./../database/mongodb');
@@ -578,12 +580,15 @@ router.put('/bot/:botName/intent/:intent/:response', function(req, res, next) {
 });
 
 
-function createBotConfigFile(path, data, cb) {
+function createBotConfigFile(path, data, host, cb) {
   var filePath = path + '/bot_config.json';
+
+  console.log("localhost addresss: " + host);
+
   var config = {};
   config['username'] = data.botOwner;
   config['botname'] = data.botName;
-  config['server_ip'] = 'http://localhost:3000';
+  config['server_ip'] = host;
   config['token'] = data.nlpToken;
   config['responseConfig'] = {};
   if (data.botType === 'simple_bot') {
@@ -647,8 +652,10 @@ router.post('/bot/:botName/upload', function(req, res, next) {
       }
 
       path = path + '/bot';
+      var host = req.connection.localAddress;
+      host = host.substring(7) + ":" + req.connection.localPort;
 
-      createBotConfigFile(path, data, function(success) {
+      createBotConfigFile(path, data, host, function(success) {
         if (!success) {
           console.log("Failed to create file bot_config.json for " + payload.userName);
           json_response.statusCode = 401;
