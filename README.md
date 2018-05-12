@@ -61,6 +61,16 @@
 ## Project Poster
 ![](docs/Diagrams/Project%20Poster.jpg)
 
+## Project Elevator Pitch Video
+
+<a href="https://youtu.be/OKHu1XN37cw"><img src="https://i.ytimg.com/vi/OKHu1XN37cw/hqdefault.jpg" 
+alt="Project Elevator Pitch Video" width="240" height="180" border="10" /></a>
+
+## Project Demo and Directions
+
+<a href="https://youtu.be/2rhoqWrD4YA"><img src="https://i.ytimg.com/vi/2rhoqWrD4YA/hqdefault.jpg" 
+alt="Project Demo and Directions" width="240" height="180" border="10" /></a>
+
 ## License
 
 Botman is released under the [MIT License](https://github.com/joshinachiket/CMPE295-enterprise-grade-botman/blob/master/LICENSE.md)
