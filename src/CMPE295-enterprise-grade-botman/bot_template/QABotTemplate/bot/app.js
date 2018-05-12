@@ -41,6 +41,7 @@ function keysToLowerCase(obj) {
 var jsonData = JSON.parse(fs.readFileSync("bot_config.json"));
 var botName = jsonData.botname;
 var userName = jsonData.username;
+var serverAdd = jsonData.server_ip;
 var responseMap = keysToLowerCase(jsonData.responseConfig);
 
 
@@ -48,7 +49,7 @@ function sendRequestToFramework(message) {
 
     var options = {
         method: 'PUT',
-        uri: 'http://localhost:3000/bot/'+botName+"/unmapped",
+        uri: serverAdd+'/bot/'+botName+"/unmapped",
         json: {
             'userName' : userName,
             'unmappedQue' : message

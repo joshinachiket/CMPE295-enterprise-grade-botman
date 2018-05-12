@@ -612,7 +612,7 @@ function createBotConfigFile(path, data, host, cb) {
   var config = {};
   config['username'] = data.botOwner;
   config['botname'] = data.botName;
-  config['server_ip'] = host;
+  config['server_ip'] = 'http://e3abd1da.ngrok.io';//host;
   config['token'] = data.nlpToken;
   config['responseConfig'] = {};
   if (data.botType === 'simple_bot') {

@@ -42,6 +42,7 @@ function keysToLowerCase(obj) {
 var jsonData = JSON.parse(fs.readFileSync("bot_config.json"));
 var botName = jsonData.botname;
 var userName = jsonData.username;
+var serverAdd = jsonData.server_ip;
 var responseMap = keysToLowerCase(jsonData.responseConfig);
 
 const client = new Wit({accessToken: jsonData.token,
@@ -51,7 +52,7 @@ function sendRequestToFramework(message) {
 
     var options = {
         method: 'PUT',
-        uri: 'http://localhost:3000/bot/'+botName+"/unmapped",
+        uri: serverAdd+'/bot/'+botName+"/unmapped",
         json: {
             'userName' : userName,
             'unmappedQue' : message
@@ -88,6 +89,7 @@ app.post('/bot',function (req,res) {
             console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
             if(data.entities && data.entities.intent) {
                 let intent = data.entities.intent[0].value;
+                console.log(intent);
                 json_response["message"] = responseMap[intent];
                 res.send(json_response);
             } else {
