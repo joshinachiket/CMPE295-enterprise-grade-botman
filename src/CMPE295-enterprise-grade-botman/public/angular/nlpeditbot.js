@@ -276,7 +276,7 @@ app.controller('BotEdit', function($scope, $http, $timeout) {
             console.log(response);
             if (response.data.statusCode === 200) {
                 console.log("botmapping successfully uploaded.");
-                $scope.accessUrl = '<iframe src="' + response.data.deployed_path + '\bot height="390" width="407" style="position:fixed;bottom:0;right:0;z-index:10;"></iframe>';
+                $scope.accessUrl = '<iframe src="' + response.data.deployed_path + '/bot" height="390" width="407" style="position:fixed;bottom:0;right:0;z-index:10;"></iframe>';
                 $scope.uploadBotStatus.success = true;
             } else {
                 console.log("Error uploading bot.");

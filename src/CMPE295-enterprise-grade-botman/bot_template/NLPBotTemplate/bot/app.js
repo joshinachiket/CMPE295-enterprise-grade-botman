@@ -1,9 +1,10 @@
 const express 		= require('express');
-const bodyParser 		= require('body-parser');
-const fs              = require('fs');
+const bodyParser 	= require('body-parser');
+const fs            = require('fs');
 const path 			= require('path');
-const {Wit, log} = require('node-wit');
-const request = require("request");
+const {Wit, log}    = require('node-wit');
+const request       = require("request");
+var weather 		= require('openweather-apis');
 
 const app 			= express();
 const port 			= process.env.PORT || 1732;
@@ -15,6 +16,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use( express.static(path.join(__dirname, 'ui')));
+
+weather.setLang('en');
+weather.setUnits('metric');
+weather.setAPPID('e0e2f438f3c2a9fadb88413cecd1d8ff');
 
 // Test the app
 app.get('/', function(req, res) {
@@ -90,7 +95,19 @@ app.post('/bot',function (req,res) {
             if(data.entities && data.entities.intent) {
                 let intent = data.entities.intent[0].value;
                 console.log(intent);
-                json_response["message"] = responseMap[intent];
+                if (intent.toLowerCase() === 'weather') {
+                    weather.setCity();
+                    weather.getAllWeather(function(err, JSONObj){
+                        city = 'Weather for city: '+JSONObj.name+', '+JSONObj.sys.country;
+                        temp =     'Current temperature: '+(((JSONObj.main.temp*9)/5)+32)+'F ';
+                        temp_min = 'Minimum temperature: '+(((JSONObj.main.temp_min*9)/5)+32)+'F ';
+                        temp_max = 'Maximum temperature: '+(((JSONObj.main.temp_max*9)/5)+32)+'F ';
+                        humidity = 'Humidity           : '+JSONObj.main.humidity+'%';
+                        json_response["message"] = city +'<br/>'+temp+'<br/>'+temp_min+'<br/>'+temp_max+humidity;
+                    });
+                } else {
+                    json_response["message"] = responseMap[intent];
+                }
                 res.send(json_response);
             } else {
                 if (responseMap.hasOwnProperty('default')) {
