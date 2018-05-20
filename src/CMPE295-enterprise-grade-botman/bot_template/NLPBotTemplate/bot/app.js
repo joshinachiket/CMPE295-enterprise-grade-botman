@@ -96,19 +96,30 @@ app.post('/bot',function (req,res) {
                 let intent = data.entities.intent[0].value;
                 console.log(intent);
                 if (intent.toLowerCase() === 'weather') {
-                    weather.setCity();
+                    let city = 'San Jose';
+                    if (data.entities.city) {
+                        city = data.entities.city[0].value;
+                    }
+
+                    weather.setCity(city);
                     weather.getAllWeather(function(err, JSONObj){
-                        city = 'Weather for city: '+JSONObj.name+', '+JSONObj.sys.country;
-                        temp =     'Current temperature: '+(((JSONObj.main.temp*9)/5)+32)+'F ';
+                        console.log('error: '+err);
+                        console.log('-------------------------------');
+                        console.log(JSONObj);
+                        city = 'Weather for city: '+JSONObj.name+' is ' + (((JSONObj.main.temp*9)/5)+32)+'F ';
+                        /*temp =     'Current temperature: '+(((JSONObj.main.temp*9)/5)+32)+'F ';
                         temp_min = 'Minimum temperature: '+(((JSONObj.main.temp_min*9)/5)+32)+'F ';
                         temp_max = 'Maximum temperature: '+(((JSONObj.main.temp_max*9)/5)+32)+'F ';
-                        humidity = 'Humidity           : '+JSONObj.main.humidity+'%';
-                        json_response["message"] = city +'<br/>'+temp+'<br/>'+temp_min+'<br/>'+temp_max+humidity;
+                        humidity = 'Humidity           : '+JSONObj.main.humidity+'%';*/
+                        //json_response["message"] = city +'<br/>'+temp+'<br/>'+temp_min+'<br/>'+temp_max+humidity;
+                        json_response["message"] = city;
+                        res.send(json_response);
                     });
                 } else {
                     json_response["message"] = responseMap[intent];
+                    res.send(json_response);
                 }
-                res.send(json_response);
+
             } else {
                 if (responseMap.hasOwnProperty('default')) {
                     json_response["message"] = responseMap.default;
